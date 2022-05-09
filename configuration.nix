@@ -133,6 +133,7 @@
     firewall = {
       enable = true;
       allowedUDPPorts = [ 43461 ]; # For WG
+      allowedTCPPorts = [ 8010 ]; # For VLC-Chromecast
     };
     
     wg-quick.interfaces = {

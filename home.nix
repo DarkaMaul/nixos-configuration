@@ -18,6 +18,21 @@ let
         cp Dracula.colorscheme $out/share/konsole
       '';
     };
+    dracula-zsh-theme = pkgs.stdenv.mkDerivation {
+      name = "dracula-zsh-theme";
+
+      src = pkgs.fetchFromGitHub {
+        owner = "dracula";
+        repo = "zsh";
+        rev = "v1.2.5";
+        sha256 = "4lP4++Ewz00siVnMnjcfXhPnJndE6ANDjEWeswkmobg=";
+      };
+
+      installPhase = ''
+        mkdir -p $out
+        cp -R dracula.zsh-theme $out/
+      '';
+    };
 in
 {
   # Home Manager needs a bit of information about you and the
@@ -31,6 +46,7 @@ in
       pkgs.spotify
       pkgs.vlc
       pkgs.plasma-browser-integration
+      pkgs.gnomecast
       (dracula-konsole)
   ];
 
@@ -168,29 +184,31 @@ in
 
   nixpkgs.overlays = [
     (self: super: {
-      dracula-zsh-theme = self.stdenv.mkDerivation {
-        name = "dracula-zsh-theme";
-
-        src = self.fetchFromGitHub {
-          owner = "dracula";
-          repo = "zsh";
-          rev = "v1.2.5";
-          sha256 = "4lP4++Ewz00siVnMnjcfXhPnJndE6ANDjEWeswkmobg=";
-        };
-
-        installPhase = ''
-          mkdir -p $out
-          cp -R dracula.zsh-theme $out/
-        '';
-      };
       oh-my-zsh = super.oh-my-zsh.overrideAttrs ( old: {
         postInstall = ''
             chmod +x $out/share/oh-my-zsh/themes
-            ln -s ${self.dracula-zsh-theme}/dracula.zsh-theme $out/share/oh-my-zsh/themes/dracula.zsh-theme
+            ln -s ${dracula-zsh-theme}/dracula.zsh-theme $out/share/oh-my-zsh/themes/dracula.zsh-theme
         '';
       });
-    }
-    )
+
+      gnomecast = super.gnomecast.overrideAttrs ( old: {
+        # Use the last version because it has the fix we need
+        src = super.fetchFromGitHub {
+          owner = "keredson";
+          repo = "gnomecast";
+          rev = "d42d891";
+          sha256 = "sha256-CJpbBuRzEjWb8hsh3HMW4bZA7nyDAwjrERCS5uGdwn8=";
+        };
+        
+        # We need to set up the GNOMECAST_HTTP_PORT port here for the firewall
+        preFixup = ''
+          gappsWrapperArgs+=(
+            --prefix PATH : ${super.lib.makeBinPath [ super.ffmpeg ]}
+            --set GNOMECAST_HTTP_PORT 8010
+          )
+        '';
+      });
+    })
   ];
 
   programs.zsh = {

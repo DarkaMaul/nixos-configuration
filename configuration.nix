@@ -132,8 +132,12 @@
   networking = {
     firewall = {
       enable = true;
-      allowedUDPPorts = [ 43461 ]; # For WG
-      allowedTCPPorts = [ 8010 ]; # For VLC-Chromecast
+      # 43461: for WG
+      # 5353: for Chromecast discovery
+      allowedUDPPorts = [ 43461 5353 ];
+      # Frome Chromecast streaming
+      allowedUDPPortRanges = [{ from = 32768; to = 61000; }];
+      allowedTCPPorts = [ 8010 ];
     };
     
     wg-quick.interfaces = {

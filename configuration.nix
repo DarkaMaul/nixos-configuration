@@ -119,15 +119,6 @@
   # Enable the OpenSSH daemon.
   services.openssh.enable = false;
 
-  location.provider = "geoclue2";
-  services.redshift = {
-    enable = true;
-    temperature = {
-      night = 3700;
-      day = 4500;
-    };
-  };
-
   # Open ports in the firewall.
   networking = {
     firewall = {

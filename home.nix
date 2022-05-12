@@ -48,6 +48,7 @@ in
       pkgs.vlc
       pkgs.plasma-browser-integration
       pkgs.gnomecast
+      pkgs.redshift
       dracula-konsole
       dracula-icon-theme
   ];
@@ -222,6 +223,12 @@ in
       plugins = ["extract" "z" "git"];
       theme = "dracula";
     };
+  };
+
+  services.redshift = {
+    enable = true;
+    latitude = "48.85";
+    longitude = "2.35";
   };
 
   # Set up the konsole profile theme to Dracula

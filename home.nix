@@ -33,6 +33,7 @@ let
         cp -R dracula.zsh-theme $out/
       '';
     };
+    dracula-icon-theme = pkgs.callPackage (import ./packages/dracula-icons) { };
 in
 {
   # Home Manager needs a bit of information about you and the
@@ -47,7 +48,8 @@ in
       pkgs.vlc
       pkgs.plasma-browser-integration
       pkgs.gnomecast
-      (dracula-konsole)
+      dracula-konsole
+      dracula-icon-theme
   ];
 
   programs.autorandr.enable = true;

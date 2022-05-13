@@ -122,6 +122,8 @@ in
                 "extensions.pocket.enabled" = false;
                 "identity.fxaccounts.enabled" = false;
                 "network.prefetch-next" = false;
+                # FIX: No-Proxy - so FF manage to reconnect on reboot
+                "network.proxy.type" = 0;
                 "signon.autofillForms" = false;
                 "signon.rememberSignons" = false; # Disable Firefox Password Manager
                 "toolkit.legacyUserProfileCustomizations.stylesheets" = true;

@@ -106,5 +106,10 @@ Klipper is responsible
 It should not be uninstalled?
 https://www.linuxquestions.org/questions/slackware-14/kde-plasma-5-clipboard-4175655887/
 
-## Default zoom size of Konsole
+## KDE Configuration
+https://github.com/samuelgrf/nixos-config/tree/master/config/home/kde
+https://github.com/knopki/devops-at-home
+
+# Rycee configuration
+https://git.sr.ht/~rycee/configurations/tree/master/item/user/common.nix
 

@@ -36,6 +36,11 @@ let
     dracula-icon-theme = pkgs.callPackage (import ./packages/dracula-icons) { };
 in
 {
+
+  imports = [
+    ./modules/programs/kde.nix
+  ];
+
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home.username = "dm";
@@ -54,6 +59,31 @@ in
   ];
 
   programs.autorandr.enable = true;
+
+  programs.kde = {
+    enable = true;
+    settings = {
+      # Set up the konsole
+      "${config.xdg.configHome}/konsolerc" = {
+        MainWindow.MenuBar = "Disabled";
+        UiSettings = {
+          ColorScheme = "Dracula";
+          WindowColorScheme = "Dracula";
+        };
+
+        "Desktop Entry".DefaultProfile = "dm.profile";
+      };
+      # Create a Konsole profile
+      "${config.xdg.dataHome}/konsole/dm.profile" = {
+        Appearance.Font = "Hack,16,-1,7,50,0,0,0,0,0";
+        General = {
+          Icon = "kded5";
+          Name = "DM Profile";
+          Parent = "FALLBACK/";
+        };
+      };
+    };
+  };
 
   programs.chromium = {
       enable = true;
@@ -231,16 +261,6 @@ in
     enable = true;
     latitude = "48.85";
     longitude = "2.35";
-  };
-
-  # Set up the konsole profile theme to Dracula
-  # TODO(dm) guard it if the konsole theme does not exists
-  home.activation = {
-    setKonsoleTheme = config.lib.dag.entryAfter ["writeBoundary"] ''
-      $DRY_RUN_CMD ${pkgs.plasma5Packages.kconfig}/bin/kwriteconfig5 --file ${config.xdg.configHome}/konsolerc --group UiSettings --key "ColorScheme" "Dracula"
-      $DRY_RUN_CMD ${pkgs.plasma5Packages.kconfig}/bin/kwriteconfig5 --file ${config.xdg.configHome}/konsolerc --group UiSettings --key "WindowColorScheme" "Dracula"
-      $DRY_RUN_CMD ${pkgs.plasma5Packages.kconfig}/bin/kwriteconfig5 --file ${config.xdg.configHome}/konsolerc --group MainWindow --key "MenuBa" "Disabled"
-    '';
   };
 
   xdg.configFile = {

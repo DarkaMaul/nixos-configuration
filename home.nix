@@ -18,21 +18,7 @@ let
         cp Dracula.colorscheme $out/share/konsole
       '';
     };
-    dracula-zsh-theme = pkgs.stdenv.mkDerivation {
-      name = "dracula-zsh-theme";
-
-      src = pkgs.fetchFromGitHub {
-        owner = "dracula";
-        repo = "zsh";
-        rev = "v1.2.5";
-        sha256 = "4lP4++Ewz00siVnMnjcfXhPnJndE6ANDjEWeswkmobg=";
-      };
-
-      installPhase = ''
-        mkdir -p $out
-        cp -R dracula.zsh-theme $out/
-      '';
-    };
+    dracula-zsh-theme = pkgs.callPackage (import ./packages/dracula-zsh-theme) { };
     dracula-icon-theme = pkgs.callPackage (import ./packages/dracula-icons) { };
 in
 {

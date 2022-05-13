@@ -34,14 +34,16 @@ in
 
   nixpkgs.config.allowUnfree = true;
   home.packages = [
-      pkgs.thunderbird
-      pkgs.spotify
-      pkgs.vlc
-      pkgs.plasma-browser-integration
-      pkgs.gnomecast
-      pkgs.redshift
-      dracula-konsole
-      dracula-icon-theme
+    pkgs.calibre
+    pkgs.gnomecast
+    pkgs.plasma-browser-integration
+    pkgs.redshift
+    pkgs.spotify
+    pkgs.thunderbird
+    pkgs.vlc
+
+    dracula-konsole
+    dracula-icon-theme
   ];
 
   programs.autorandr.enable = true;

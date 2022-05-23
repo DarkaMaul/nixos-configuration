@@ -110,6 +110,16 @@ https://www.linuxquestions.org/questions/slackware-14/kde-plasma-5-clipboard-417
 https://github.com/samuelgrf/nixos-config/tree/master/config/home/kde
 https://github.com/knopki/devops-at-home
 
-# Rycee configuration
+## Rycee configuration
 https://git.sr.ht/~rycee/configurations/tree/master/item/user/common.nix
 
+## Change a systemd ExecStart
+
+This change the value of ExecStart
+
+```nix
+  systemd.services.bluetooth.serviceConfig.ExecStart = [
+    ""  # Important because we want to override the line
+    "${pkgs.bluez}/libexec/bluetooth/bluetoothd --noplugin=sap"
+  ];
+```

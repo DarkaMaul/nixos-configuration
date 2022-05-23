@@ -16,6 +16,9 @@
 
     # https://community.frame.work/t/linux-battery-life-tuning/6665/156
     "nvme.noacpi=1"
+
+    # FIX: systemd-udevd[768]: could not read from '/sys/module/pcc_cpufreq/initstate': No such device
+    "intel_pstate=active"
   ];
   
   # Power management
@@ -37,10 +40,11 @@
     };
   };
 
+  # Networking
   networking.hostName = "crowntail"; # Define your hostname.
-  # Pick only one of the below networking options.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  networking.useDHCP = false;
+  networking.interfaces.wlp170s0.useDHCP = true;
 
   # Set your time zone.
   time.timeZone = "Europe/Paris";
@@ -75,7 +79,10 @@
   services.xserver.desktopManager.plasma5.enable = true;
   
   # Hardware
-  hardware.bluetooth.enable = true;
+  hardware.bluetooth = {
+    enable = true;
+    disabledPlugins = ["sap"];
+  };
 
   # Configure keymap in X11
   services.xserver.layout = "fr";

@@ -36,6 +36,7 @@ in
   home.packages = [
     pkgs.calibre
     pkgs.gnomecast
+    pkgs.gnumake
     pkgs.plasma-browser-integration
     pkgs.redshift
     pkgs.spotify
@@ -245,8 +246,21 @@ in
     };
   };
 
+  # programs.texlive = {
+  #   enable = true;
+  #   extraPackages = tpkgs: {
+  #     inherit (tpkgs)
+  #     collection-basic
+  #     collection-latexrecommended
+  #     latexmk
+  #     synctex
+  #     babel-french;
+  #   };
+  # };
+
   services.redshift = {
     enable = true;
+    # Paris
     latitude = "48.85";
     longitude = "2.35";
   };

@@ -1,6 +1,6 @@
 # https://github.com/knopki/devops-at-home/blob/master/pkgs/data/icons/dracula-icon-theme.nix
 
-{ stdenv, lib, fetchzip, gtk3, breeze-icons, hicolor-icon-theme }:
+{ stdenv, lib, fetchzip, gtk3, pkgs }:
 
 stdenv.mkDerivation rec {
   pname = "dracula-icon-theme";
@@ -16,12 +16,22 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [ gtk3 ];
 
-  propagatedBuildInputs = [
+  # ubuntu-mono-dark,Mint-X,elementary
+  propagatedBuildInputs = with pkgs; [
     breeze-icons
     hicolor-icon-theme
+    gnome-icon-theme
+    papirus-icon-theme
   ];
 
   dontDropIconThemeCache = true;
+
+  # Missing a few dependencies: Zafiro, elementary, ubuntu-mono-dark, Mint-X
+  postPatch = ''
+    substituteInPlace index.theme \
+      --replace "Papirus-Dark,breeze-dark,Zafiro,ubuntu-mono-dark,Mint-X,elementary,gnome,hicolor" \
+                "Papirus-Dark,breeze-dark,elementary,gnome,hicolor"
+  '';
 
   installPhase = ''
     mkdir -p $out/share/icons/Dracula

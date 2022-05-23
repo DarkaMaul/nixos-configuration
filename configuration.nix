@@ -11,7 +11,12 @@
       ./hardware-configuration.nix # Hardware scan
     ];
 
-  boot.kernelParams = ["mem_sleep_default=deep"];
+  boot.kernelParams = [
+    "mem_sleep_default=deep"
+
+    # https://community.frame.work/t/linux-battery-life-tuning/6665/156
+    "nvme.noacpi=1"
+  ];
   
   # Power management
   powerManagement = {

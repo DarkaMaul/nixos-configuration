@@ -40,12 +40,6 @@
     };
   };
 
-  # Networking
-  networking.hostName = "crowntail"; # Define your hostname.
-  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
-  networking.useDHCP = false;
-  networking.interfaces.wlp170s0.useDHCP = true;
-
   # Set your time zone.
   time.timeZone = "Europe/Paris";
 
@@ -133,6 +127,16 @@
 
   # Open ports in the firewall.
   networking = {
+    # Host name
+    hostName = "crowntail";
+
+    # Activate NetworkManager
+    networkmanager.enable = true;
+
+    # Try to solve DHCP issues
+    useDHCP = false;
+    interfaces.wlp170s0.useDHCP = true;
+
     firewall = {
       enable = true;
       # 43461: for WG

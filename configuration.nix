@@ -133,6 +133,12 @@
     # Activate NetworkManager
     networkmanager.enable = true;
 
+    # Use Cloudfare DNS
+    nameservers = [
+      1.1.1.1
+      1.0.0.1
+    ];
+
     # Try to solve DHCP issues
     useDHCP = false;
     interfaces.wlp170s0.useDHCP = true;

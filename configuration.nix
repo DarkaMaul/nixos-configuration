@@ -19,6 +19,9 @@
 
     # FIX: systemd-udevd[768]: could not read from '/sys/module/pcc_cpufreq/initstate': No such device
     "intel_pstate=active"
+
+    # Disable IPv6
+    "ipv6.disable=1"
   ];
   
   # Power management
@@ -133,10 +136,13 @@
     # Activate NetworkManager
     networkmanager.enable = true;
 
+    # Disable IPv6
+    enableIPv6 = false;
+    
     # Use Cloudfare DNS
     nameservers = [
-      1.1.1.1
-      1.0.0.1
+      "1.1.1.1"
+      "1.0.0.1"
     ];
 
     # Try to solve DHCP issues

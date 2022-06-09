@@ -1,5 +1,6 @@
 # https://github.com/knopki/devops-at-home/blob/master/pkgs/data/icons/dracula-icon-theme.nix
 
+# https://github.com/m4thewz/dracula-icons
 { stdenv, lib, fetchzip, gtk3, pkgs }:
 
 stdenv.mkDerivation rec {

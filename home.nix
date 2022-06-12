@@ -65,10 +65,13 @@ in
       };
       # Create a Konsole profile
       "${config.xdg.dataHome}/konsole/dm.profile" = {
-        Appearance.Font = "Hack,16,-1,7,50,0,0,0,0,0";
+        Appearance = {
+          Font = "Hack,16,-1,7,50,0,0,0,0,0";
+          ColorScheme = "Dracula";
+        };
         General = {
           Icon = "kded5";
-          Name = "DM Profile";
+          Name = "dm";
           Parent = "FALLBACK/";
         };
       };

@@ -41,6 +41,7 @@ in
     pkgs.redshift
     pkgs.spotify
     pkgs.thunderbird
+    pkgs.unzip
     pkgs.vlc
 
     dracula-konsole

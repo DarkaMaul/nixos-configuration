@@ -274,6 +274,11 @@ in
     "plasma-org.kde.plasma.desktop-appletsrc".source = ./config/plasma-org.kde.plasma.desktop-appletsrc;
   };
 
+  xdg.dataFile = {
+    # Konsole shortcuts - override Tab switching
+    "kxmlgui5/konsole/konsoleui.rc".source = ./config/konsoleui.rc;
+  };
+
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
   # when a new Home Manager release introduces backwards

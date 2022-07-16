@@ -16,3 +16,7 @@ Moreover, this is a work in progress and tailored for my usages.
 
 - [ ] SSH Configuration
 - [ ] Disable Klipper
+
+## Thunderbird
+
+buildFirefoxXpiAddon

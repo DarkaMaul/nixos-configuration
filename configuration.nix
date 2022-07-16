@@ -75,6 +75,18 @@
   services.xserver.displayManager.sddm.theme = "Dracula";
   services.xserver.desktopManager.plasma5.enable = true;
   
+  services.tlp = {
+    enable = true;
+    settings = {
+      TLP_DEFAULT_MODE = "BAT";
+      PLATFORM_PROFILE_ON_AC = "performance";
+      PLATFORM_PROFILE_ON_BAT = "low-power";
+      CPU_SCALING_GOVERNOR_ON_AC = "performance";
+      CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+      PCIE_ASPM_ON_BAT = "powersupersave";
+    };
+  };
+
   # Hardware
   hardware.bluetooth = {
     enable = true;

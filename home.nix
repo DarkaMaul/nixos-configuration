@@ -35,6 +35,7 @@ in
   nixpkgs.config.allowUnfree = true;
   home.packages = [
     pkgs.calibre
+    pkgs.discord
     pkgs.gnomecast
     pkgs.gnumake
     pkgs.plasma-browser-integration

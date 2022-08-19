@@ -39,6 +39,7 @@ in
     pkgs.gnomecast
     pkgs.gnumake
     pkgs.plasma-browser-integration
+    pkgs.python3
     pkgs.redshift
     pkgs.spotify
     pkgs.thunderbird

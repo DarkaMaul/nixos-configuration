@@ -33,6 +33,48 @@ in
   home.homeDirectory = "/home/dm";
 
   nixpkgs.config.allowUnfree = true;
+
+  nixpkgs.overlays = [
+    (self: super: {
+      oh-my-zsh = super.oh-my-zsh.overrideAttrs ( old: {
+        postInstall = ''
+            chmod +x $out/share/oh-my-zsh/themes
+            ln -s ${dracula-zsh-theme}/dracula.zsh-theme $out/share/oh-my-zsh/themes/dracula.zsh-theme
+        '';
+      });
+
+      jetbrains = super.jetbrains // {
+        pycharm-professional = super.jetbrains.pycharm-professional.overrideAttrs (
+          _ : rec {
+            version = "2022.1.3";
+            src = super.fetchurl {
+              url = "https://download.jetbrains.com/python/pycharm-professional-2022.1.3.tar.gz";
+              sha256 = "f8b9a761529358e97d1b77510a8ef81314bccdfb0fa450f2adcd466ba1fd0bf5";
+            };
+          }
+        );
+      };
+
+      gnomecast = super.gnomecast.overrideAttrs ( old: {
+        # Use the last version because it has the fix we need
+        src = super.fetchFromGitHub {
+          owner = "keredson";
+          repo = "gnomecast";
+          rev = "d42d891";
+          sha256 = "sha256-CJpbBuRzEjWb8hsh3HMW4bZA7nyDAwjrERCS5uGdwn8=";
+        };
+        
+        # We need to set up the GNOMECAST_HTTP_PORT port here for the firewall
+        preFixup = ''
+          gappsWrapperArgs+=(
+            --prefix PATH : ${super.lib.makeBinPath [ super.ffmpeg ]}
+            --set GNOMECAST_HTTP_PORT 8010
+          )
+        '';
+      });
+    })
+  ];
+
   home.packages = [
     # Perso
     pkgs.calibre
@@ -227,46 +269,23 @@ in
       browsers = ["firefox" ];  # TODO add chromium
   };
 
-  nixpkgs.overlays = [
-    (self: super: {
-      oh-my-zsh = super.oh-my-zsh.overrideAttrs ( old: {
-        postInstall = ''
-            chmod +x $out/share/oh-my-zsh/themes
-            ln -s ${dracula-zsh-theme}/dracula.zsh-theme $out/share/oh-my-zsh/themes/dracula.zsh-theme
-        '';
-      });
+  programs.ssh = {
+    enable = true;
+    controlMaster = "auto";
+    compression = true;
+    extraConfig = ''
+      AddKeysToAgent yes
+    '';
 
-      jetbrains = super.jetbrains // {
-        pycharm-professional = super.jetbrains.pycharm-professional.overrideAttrs (
-          _ : rec {
-            version = "2022.1.3";
-            src = super.fetchurl {
-              url = "https://download.jetbrains.com/python/pycharm-professional-2022.1.3.tar.gz";
-              sha256 = "f8b9a761529358e97d1b77510a8ef81314bccdfb0fa450f2adcd466ba1fd0bf5";
-            };
-          }
-        );
+    matchBlocks = {
+      darkamaul = {
+        hostname = "darkamaul.fr";
+        user = "alexis";
+        identityFile = "~/.ssh/id_ed25519_ovh";
+        port = 443;
       };
-
-      gnomecast = super.gnomecast.overrideAttrs ( old: {
-        # Use the last version because it has the fix we need
-        src = super.fetchFromGitHub {
-          owner = "keredson";
-          repo = "gnomecast";
-          rev = "d42d891";
-          sha256 = "sha256-CJpbBuRzEjWb8hsh3HMW4bZA7nyDAwjrERCS5uGdwn8=";
-        };
-        
-        # We need to set up the GNOMECAST_HTTP_PORT port here for the firewall
-        preFixup = ''
-          gappsWrapperArgs+=(
-            --prefix PATH : ${super.lib.makeBinPath [ super.ffmpeg ]}
-            --set GNOMECAST_HTTP_PORT 8010
-          )
-        '';
-      });
-    })
-  ];
+    };
+  };
 
   programs.zsh = {
     enable = true;
@@ -291,11 +310,20 @@ in
   #   };
   # };
 
-  services.redshift = {
-    enable = true;
-    # Paris
-    latitude = "48.85";
-    longitude = "2.35";
+  services = {
+    redshift = {
+        enable = true;
+        # Paris
+        latitude = "48.85";
+        longitude = "2.35";
+      };
+
+    gpg-agent = {
+      enable = true;
+      enableSshSupport = true;
+      # enableZshIntegration = true;
+    };
+
   };
 
   xdg.configFile = {

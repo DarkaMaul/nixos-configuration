@@ -123,3 +123,11 @@ This change the value of ExecStart
     "${pkgs.bluez}/libexec/bluetooth/bluetoothd --noplugin=sap"
   ];
 ```
+
+## Check Syntax
+
+Starts an iteractive editor to check the syntax
+
+```command
+$ nix repl
+```

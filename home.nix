@@ -34,20 +34,27 @@ in
 
   nixpkgs.config.allowUnfree = true;
   home.packages = [
+    # Perso
     pkgs.calibre
     pkgs.discord
     pkgs.gnomecast
-    pkgs.gnumake
     pkgs.plasma-browser-integration
-    pkgs.python3
     pkgs.redshift
     pkgs.spotify
     pkgs.thunderbird
-    pkgs.unzip
-    pkgs.vlc
-
+  ] ++ [
+    # Dracula
     dracula-konsole
     dracula-icon-theme
+  ] ++ [
+    # Utilities
+    pkgs.unzip
+    pkgs.vlc
+  ] ++ [
+    # Dev
+    pkgs.gnumake
+    pkgs.python3
+    pkgs.jetbrains.pycharm-professional
   ];
 
   programs.autorandr.enable = true;
@@ -97,6 +104,14 @@ in
     enable = true;
     userEmail = "darkamaul@hotmail.fr";
     userName = "dm";
+    lfs.enable = true;
+    signing = {
+      key = "4354FD36D28894CA";
+      signByDefault = true;
+    };
+    extraConfig = {
+      merge.conflictstyle = "diff3";
+    };
   };
 
   programs.firefox = {
@@ -220,6 +235,18 @@ in
             ln -s ${dracula-zsh-theme}/dracula.zsh-theme $out/share/oh-my-zsh/themes/dracula.zsh-theme
         '';
       });
+
+      jetbrains = super.jetbrains // {
+        pycharm-professional = super.jetbrains.pycharm-professional.overrideAttrs (
+          _ : rec {
+            version = "2022.1.3";
+            src = super.fetchurl {
+              url = "https://download.jetbrains.com/python/pycharm-professional-2022.1.3.tar.gz";
+              sha256 = "f8b9a761529358e97d1b77510a8ef81314bccdfb0fa450f2adcd466ba1fd0bf5";
+            };
+          }
+        );
+      };
 
       gnomecast = super.gnomecast.overrideAttrs ( old: {
         # Use the last version because it has the fix we need

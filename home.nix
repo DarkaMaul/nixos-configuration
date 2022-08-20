@@ -46,10 +46,10 @@ in
       jetbrains = super.jetbrains // {
         pycharm-professional = super.jetbrains.pycharm-professional.overrideAttrs (
           _ : rec {
-            version = "2022.1.3";
+            version = "2022.2.1";
             src = super.fetchurl {
-              url = "https://download.jetbrains.com/python/pycharm-professional-2022.1.3.tar.gz";
-              sha256 = "f8b9a761529358e97d1b77510a8ef81314bccdfb0fa450f2adcd466ba1fd0bf5";
+              url = "https://download.jetbrains.com/python/pycharm-professional-2022.2.1.tar.gz";
+              sha256 = "a23ffa7b617ab27d3c8abb0689b4d03b5370534193152cd4cfe4196c7d150751";
             };
           }
         );
@@ -97,6 +97,9 @@ in
     pkgs.gnumake
     pkgs.python3
     pkgs.jetbrains.pycharm-professional
+  ] ++ [
+    # Games
+    pkgs.mindustry
   ];
 
   programs.autorandr.enable = true;
@@ -234,7 +237,7 @@ in
     userSettings = {
         "update.mode" = "none";
         "[nix]"."editor.tabSize" = 2;
-        "window.zoomLevel" = 2;
+        "window.zoomLevel" = 1;
     };
     mutableExtensionsDir = false;
     extensions = with pkgs.vscode-extensions; [
@@ -293,7 +296,12 @@ in
     enableSyntaxHighlighting = true;
     oh-my-zsh = {
       enable = true;
-      plugins = ["extract" "z" "git"];
+      plugins = [
+        "extract"
+        "git"
+        "sudo"
+        "z"
+      ];
       theme = "dracula";
     };
   };

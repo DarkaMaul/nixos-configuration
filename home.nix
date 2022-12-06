@@ -20,6 +20,9 @@ let
     };
     dracula-zsh-theme = pkgs.callPackage (import ./packages/dracula-zsh-theme) { };
     dracula-icon-theme = pkgs.callPackage (import ./packages/dracula-icons) { };
+
+    thunderbird-dracula = pkgs.callPackage (import ./packages/thunderbird-extensions) { };
+    # thunderbird-addons = pkgs.recurseIntoAttrs ( pkgs.callPackage ./packages/thunderbird-new) { };
 in
 {
 
@@ -75,6 +78,19 @@ in
     })
   ];
 
+  home.file.".thunderbird/ess8mah9.default/extensions" = {
+    source = "${thunderbird-dracula}";
+    recursive = true;
+  };
+  # home.file.".thunderbird/ess8mah9.default/extensions".source = let
+  #   extensionDrv = pkgs.buildEnv {
+  #     name = "thunderbird-extensions";
+  #     paths = with thunderbird-addons; [
+  #       dracula-theme
+  #     ];
+  #   };
+  # in "${extensionDrv}";
+
   home.packages = [
     # Perso
     pkgs.calibre
@@ -92,6 +108,8 @@ in
     # Utilities
     pkgs.unzip
     pkgs.vlc
+    pkgs.keepass
+    pkgs.keepass-otpkeyprov
   ] ++ [
     # Dev
     pkgs.gnumake

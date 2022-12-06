@@ -76,7 +76,7 @@
   services.xserver.desktopManager.plasma5.enable = true;
   
   services.tlp = {
-    enable = true;
+    enable = false; # TODO(dm)
     settings = {
       TLP_DEFAULT_MODE = "BAT";
       PLATFORM_PROFILE_ON_AC = "performance";
@@ -159,7 +159,6 @@
 
     # Try to solve DHCP issues
     useDHCP = false;
-    interfaces.wlp170s0.useDHCP = true;
 
     firewall = {
       enable = true;

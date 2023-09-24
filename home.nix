@@ -46,18 +46,6 @@ in
         '';
       });
 
-      jetbrains = super.jetbrains // {
-        pycharm-professional = super.jetbrains.pycharm-professional.overrideAttrs (
-          _ : rec {
-            version = "2022.2.1";
-            src = super.fetchurl {
-              url = "https://download.jetbrains.com/python/pycharm-professional-2022.2.1.tar.gz";
-              sha256 = "a23ffa7b617ab27d3c8abb0689b4d03b5370534193152cd4cfe4196c7d150751";
-            };
-          }
-        );
-      };
-
       gnomecast = super.gnomecast.overrideAttrs ( old: {
         # Use the last version because it has the fix we need
         src = super.fetchFromGitHub {
@@ -110,6 +98,7 @@ in
     pkgs.vlc
     pkgs.keepass
     pkgs.keepass-otpkeyprov
+    pkgs.yubikey-manager
   ] ++ [
     # Dev
     pkgs.gnumake
@@ -186,24 +175,6 @@ in
       };
     };
     
-    extensions = with nur.repos.rycee.firefox-addons; [
-        browserpass
-        plasma-integration
-        tree-style-tab
-        ublock-origin
-        ( buildFirefoxXpiAddon {
-          pname = "dracula-dark-theme";
-          addonId = "{b743f56d-1cc1-4048-8ba6-f9c2ab7aa54d}";
-          version = "1.9.2";
-          url = "https://addons.mozilla.org/firefox/downloads/file/3834855/dracula_dark_theme-1.9.2-an+fx.xpi";
-          sha256 = "eFxd7GfCeZHcGeMqHtYhmaz37g3D9lRhsikm4dZa69o=";
-          meta = with lib; {
-            description = "Dracula Dark Theme";
-            license = pkgs.lib.licenses.cc-by-nc-sa-30;
-            platforms = pkgs.lib.platforms.all;
-          };
-        })
-      ];
     # Some info: https://gitlab.com/rycee/configurations/-/blob/master/user/firefox.nix#L47
     profiles = {
         dm = {
@@ -244,8 +215,25 @@ in
                 #sidebar-header {
                     display: none;
                 }
-        '';
-
+            '';
+              extensions = with nur.repos.rycee.firefox-addons; [
+                browserpass
+                plasma-integration
+                tree-style-tab
+                ublock-origin
+                ( buildFirefoxXpiAddon {
+                  pname = "dracula-dark-theme";
+                  addonId = "{b743f56d-1cc1-4048-8ba6-f9c2ab7aa54d}";
+                  version = "1.9.2";
+                  url = "https://addons.mozilla.org/firefox/downloads/file/3834855/dracula_dark_theme-1.9.2-an+fx.xpi";
+                  sha256 = "eFxd7GfCeZHcGeMqHtYhmaz37g3D9lRhsikm4dZa69o=";
+                  meta = with lib; {
+                    description = "Dracula Dark Theme";
+                    license = pkgs.lib.licenses.cc-by-nc-sa-30;
+                    platforms = pkgs.lib.platforms.all;
+                  };
+                })
+              ];
         };
     };
   };
@@ -311,7 +299,7 @@ in
   programs.zsh = {
     enable = true;
     enableAutosuggestions = true;
-    enableSyntaxHighlighting = true;
+    syntaxHighlighting.enable = true;
     oh-my-zsh = {
       enable = true;
       plugins = [

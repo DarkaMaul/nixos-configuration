@@ -87,6 +87,8 @@
     };
   };
 
+  services.pcscd.enable = true;
+
   # Hardware
   hardware.bluetooth = {
     enable = true;
@@ -123,18 +125,18 @@
   };
 
   # Programs
-  programs.git = {
-    enable = true;
-    lfs.enable = true;
+  programs = {
+    git = {
+      enable = true;
+      lfs.enable = true;
+    };
+
+    htop.enable = true;
+    gnupg.agent.enable = true;
+    kdeconnect.enable = true;
+    zsh.enable = true;
+
   };
-
-  programs.htop.enable = true;
-
-  programs.gnupg.agent = {
-    enable = true;
-  };
-
-  programs.kdeconnect.enable = true;
 
   # List services that you want to enable:
   # Enable the OpenSSH daemon.

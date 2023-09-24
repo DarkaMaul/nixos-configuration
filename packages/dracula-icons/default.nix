@@ -12,7 +12,7 @@ stdenv.mkDerivation rec {
     url = "https://github.com/dracula/gtk/files/5214870/Dracula.zip";
     name = "icons.zip";
     sha256 = "sha256-rcSKlgI3bxdh4INdebijKElqbmAfTwO+oEt6M2D1ls0=";
-    extraPostFetch = "chmod go-w $out";
+    postFetch = "chmod go-w $out";
   };
 
   nativeBuildInputs = [ gtk3 ];

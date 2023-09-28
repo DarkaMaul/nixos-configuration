@@ -15,16 +15,16 @@ let
       preferLocalBuild = true;
       allowSubstitutes = true;
 
-    buildCommand = ''
-      mkdir -p $out
-      install -v -m644 $src $out/${pname}-dm-2.xpi
-    '';
-      });
+      buildCommand = ''
+        mkdir -p $out
+        install -v -m644 $src $out/${pname}-${version}.xpi
+      '';
+    });
 
-  packages = [];
+  packages = {};
 
 in packages // {
-  # inherit buildThunderbirdXpiAddon;
+  inherit buildThunderbirdXpiAddon;
 
   dracula-theme = buildThunderbirdXpiAddon {
     pname = "dracula-thunderbird-theme";
@@ -34,8 +34,20 @@ in packages // {
     meta = with lib; {
       homepage = "https://draculatheme.com/thunderbird";
       description = "Dracula Theme for Thunderbird";
-      license = licences.cc;
+      license = lib.licenses.cc-by-30;
     };
     
+  };
+
+  french-language-pack = buildThunderbirdXpiAddon {
+    pname = "french-language-pack";
+    version = "115.3.20230926.115257";
+    url = "https://addons.thunderbird.net/thunderbird/downloads/latest/tb-langpack-fr/addon-640748-latest.xpi";
+    sha256 = "sha256-6u8i99IPrQauXoGip7UWueKvmAoqNegMPsQnO2YgrE0=";
+    meta = with lib; {
+      homepage = "https://addons.thunderbird.net/en-US/thunderbird/addon/tb-langpack-fr/";
+      description = "Français (fr) Language Pack";
+      license = lib.licenses.mpl20;
+    };
   };
 }

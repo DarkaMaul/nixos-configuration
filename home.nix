@@ -2,6 +2,7 @@
 
 let 
     nur = import (builtins.fetchTarball "https://github.com/nix-community/NUR/archive/master.tar.gz") { inherit pkgs; };
+    
     dracula-konsole = pkgs.stdenv.mkDerivation {
       name = "dracula-konsole-theme";
       src = pkgs.fetchFromGitHub {
@@ -20,9 +21,7 @@ let
     };
     dracula-zsh-theme = pkgs.callPackage (import ./packages/dracula-zsh-theme) { };
     dracula-icon-theme = pkgs.callPackage (import ./packages/dracula-icons) { };
-
-    thunderbird-dracula = pkgs.callPackage (import ./packages/thunderbird-extensions) { };
-    # thunderbird-addons = pkgs.recurseIntoAttrs ( pkgs.callPackage ./packages/thunderbird-new) { };
+    thunderbird-addons = pkgs.callPackage ( import ./packages/thunderbird-addons) { };
 in
 {
 
@@ -34,6 +33,18 @@ in
   # paths it should manage.
   home.username = "dm";
   home.homeDirectory = "/home/dm";
+
+  accounts.email.accounts = {
+    darkamaul = {
+      primary = true;
+      realName = "Alexis Challande";
+      thunderbird.enable = true;
+      address = "darkamaul@hotmail.fr";
+      flavor = "outlook.office365.com";
+      # TODO(dm) Change me after going back to pass
+      # passwordCommand = "TODO";
+    };
+  };
 
   nixpkgs.config.allowUnfree = true;
 
@@ -65,19 +76,6 @@ in
       });
     })
   ];
-
-  home.file.".thunderbird/ess8mah9.default/extensions" = {
-    source = "${thunderbird-dracula}";
-    recursive = true;
-  };
-  # home.file.".thunderbird/ess8mah9.default/extensions".source = let
-  #   extensionDrv = pkgs.buildEnv {
-  #     name = "thunderbird-extensions";
-  #     paths = with thunderbird-addons; [
-  #       dracula-theme
-  #     ];
-  #   };
-  # in "${extensionDrv}";
 
   home.packages = [
     # Perso
@@ -311,6 +309,29 @@ in
       theme = "dracula";
     };
   };
+
+  programs.thunderbird = {
+    enable = true;
+    profiles = {
+      hm-thunderbird-dm = {
+        isDefault = true;
+      };
+    };
+  };
+
+  home.file.".thunderbird/hm-thunderbird-dm/extensions" = let
+    extensions = with thunderbird-addons; [
+      dracula-theme
+      french-language-pack
+    ]; in
+      pkgs.lib.mkIf (extensions != [ ]) {
+        source = pkgs.buildEnv {
+          name = "hm-thunderbird-extensions";
+          paths = extensions;
+        };
+        recursive = true;
+        force = true;
+    };
 
   # programs.texlive = {
   #   enable = true;

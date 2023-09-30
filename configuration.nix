@@ -90,9 +90,22 @@
   services.pcscd.enable = true;
 
   # Hardware
-  hardware.bluetooth = {
-    enable = true;
-    disabledPlugins = ["sap"];
+  hardware = {
+    bluetooth = {
+      enable = true;
+      disabledPlugins = ["sap"];
+      settings = {
+        General = {
+          Enable = "Source,Sink,Media,Socket";
+          Experimental = "true";
+        };
+      };
+    };
+
+    pulseaudio = {
+      enable = true;
+      package = pkgs.pulseaudioFull;
+    };
   };
 
   # Configure keymap in X11
@@ -107,7 +120,6 @@
 
   # Enable sound.
   sound.enable = true;
-  hardware.pulseaudio.enable = true;
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;

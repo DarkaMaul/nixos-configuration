@@ -242,12 +242,14 @@ in
         "update.mode" = "none";
         "[nix]"."editor.tabSize" = 2;
         "window.zoomLevel" = 1;
+        "editor.inlineSuggest.enabled" = true;
     };
     mutableExtensionsDir = false;
     extensions = with pkgs.vscode-extensions; [
       ms-python.python
       dracula-theme.theme-dracula
       bbenoist.nix
+      github.copilot
     ];
   };
 

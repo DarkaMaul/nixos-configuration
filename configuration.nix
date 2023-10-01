@@ -226,7 +226,11 @@
     dates = "weekly";
   };
 
-  home-manager.users.dm = import /home/dm/nixos-config/home.nix;
+  home-manager = {
+    # Use the global pkgs that is configured via the system level nixpkgs options
+    # useGlobalPkgs = true;
+    users.dm = import /home/dm/nixos-config/home.nix;
+  };
   
   # We like to live dangerously so be it
   system.autoUpgrade.enable = true;

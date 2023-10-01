@@ -47,7 +47,6 @@ in
   };
 
   nixpkgs.config.allowUnfree = true;
-
   nixpkgs.overlays = [
     (self: super: {
       oh-my-zsh = super.oh-my-zsh.overrideAttrs ( old: {

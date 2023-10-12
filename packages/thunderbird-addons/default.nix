@@ -41,12 +41,24 @@ in packages // {
 
   french-language-pack = buildThunderbirdXpiAddon {
     pname = "french-language-pack";
-    version = "115.3.20230926.115257";
-    url = "https://addons.thunderbird.net/thunderbird/downloads/latest/tb-langpack-fr/addon-640748-latest.xpi";
-    sha256 = "sha256-6u8i99IPrQauXoGip7UWueKvmAoqNegMPsQnO2YgrE0=";
+    version = "102.3.3buildid20221010.194951";
+    url = "https://addons.thunderbird.net/thunderbird/downloads/file/1025319/francais_fr_language_pack-115.3.20231010.142850-tb.xpi";
+    sha256 = "sha256-1Z9YOUKFWm8IfF1PBIGbwGLuZID776HIM6/nijLIGCY=";
     meta = with lib; {
       homepage = "https://addons.thunderbird.net/en-US/thunderbird/addon/tb-langpack-fr/";
       description = "Français (fr) Language Pack";
+      license = lib.licenses.mpl20;
+    };
+  };
+
+  french-dictionnary = buildThunderbirdXpiAddon {
+    pname = "french-dictionnary";
+    version = "6.3.1webext";
+    url = "https://addons.thunderbird.net/thunderbird/downloads/latest/dictionnaire-fran%C3%A7ais1/addon-354872-latest.xpi";
+    sha256 = "sha256-5Ty+lgrgB0LhavqwruGZC5SsRFBf6lyu70syZcv3A24=";
+    meta = with lib; {
+      homepage = "https://addons.thunderbird.net/fr/thunderbird/addon/dictionnaire-fran%C3%A7ais1";
+      description = "Dictionnaire orthographique pour la langue française.";
       license = lib.licenses.mpl20;
     };
   };

@@ -332,7 +332,13 @@ in
         };
         recursive = true;
         force = true;
-    };
+  };
+
+  # Autoreload for IPython
+  home.file.".ipython/profile_default/ipython_config.py".text = ''
+    c.InteractiveShellApp.extensions = ["autoreload"]
+    c.InteractiveShellApp.exec_lines = ["%autoreload 2"]
+  '';
 
   # programs.texlive = {
   #   enable = true;

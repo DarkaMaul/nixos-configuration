@@ -81,10 +81,12 @@ in
     pkgs.calibre
     pkgs.discord
     pkgs.gnomecast
+    pkgs.mcomix # Comics reader
     pkgs.plasma-browser-integration
     pkgs.redshift
     pkgs.spotify
     pkgs.thunderbird
+    pkgs.zbar # For reading QR codes
   ] ++ [
     # Dracula
     dracula-konsole
@@ -324,6 +326,7 @@ in
     extensions = with thunderbird-addons; [
       dracula-theme
       french-language-pack
+      french-dictionnary
     ]; in
       pkgs.lib.mkIf (extensions != [ ]) {
         source = pkgs.buildEnv {

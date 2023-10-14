@@ -6,8 +6,7 @@
 
 {
   imports =
-    [ 
-       <home-manager/nixos>  # Home manager
+    [
       ./hardware-configuration.nix # Hardware scan
     ];
 
@@ -24,6 +23,9 @@
     "ipv6.disable=1"
   ];
   
+  # Enable flakes and nix-command
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
   # Power management
   powerManagement = {
     enable = true;
@@ -224,12 +226,6 @@
   nix.gc = {
     automatic = true;
     dates = "weekly";
-  };
-
-  home-manager = {
-    # Use the global pkgs that is configured via the system level nixpkgs options
-    # useGlobalPkgs = true;
-    users.dm = import /home/dm/nixos-config/home.nix;
   };
   
   # We like to live dangerously so be it

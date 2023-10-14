@@ -5,7 +5,7 @@ let
   buildThunderbirdXpiAddon = lib.makeOverridable ({ stdenv ? args.stdenv
     , fetchurl ? args.fetchurl, pname, version, url, sha256, meta, ...
     }:
-    stdenv.mkDerivation {
+    stdenv.mkDerivation rec {
       name = "${pname}-${version}";
 
       inherit meta;
@@ -17,7 +17,7 @@ let
 
       buildCommand = ''
         mkdir -p $out
-        install -v -m644 $src $out/${pname}-${version}.xpi
+        install -v -m644 $src $out/${name}.xpi
       '';
     });
 

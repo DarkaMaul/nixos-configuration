@@ -1,8 +1,6 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, inputs, ... }:
 
-let 
-    nur = import (builtins.fetchTarball "https://github.com/nix-community/NUR/archive/master.tar.gz") { inherit pkgs; };
-    
+let    
     dracula-konsole = pkgs.stdenv.mkDerivation {
       name = "dracula-konsole-theme";
       src = pkgs.fetchFromGitHub {
@@ -19,7 +17,7 @@ let
         cp Dracula.colorscheme $out/share/konsole
       '';
     };
-    dracula-zsh-theme = pkgs.callPackage (import ./packages/dracula-zsh-theme) { };
+    # dracula-zsh-theme = pkgs.callPackage (import ./packages/dracula-zsh-theme) { };
     dracula-icon-theme = pkgs.callPackage (import ./packages/dracula-icons) { };
     thunderbird-addons = pkgs.callPackage ( import ./packages/thunderbird-addons) { };
 in
@@ -46,36 +44,6 @@ in
     };
   };
 
-  nixpkgs.config.allowUnfree = true;
-  nixpkgs.overlays = [
-    (self: super: {
-      oh-my-zsh = super.oh-my-zsh.overrideAttrs ( old: {
-        postInstall = ''
-            chmod +x $out/share/oh-my-zsh/themes
-            ln -s ${dracula-zsh-theme}/dracula.zsh-theme $out/share/oh-my-zsh/themes/dracula.zsh-theme
-        '';
-      });
-
-      gnomecast = super.gnomecast.overrideAttrs ( old: {
-        # Use the last version because it has the fix we need
-        src = super.fetchFromGitHub {
-          owner = "keredson";
-          repo = "gnomecast";
-          rev = "d42d891";
-          sha256 = "sha256-CJpbBuRzEjWb8hsh3HMW4bZA7nyDAwjrERCS5uGdwn8=";
-        };
-        
-        # We need to set up the GNOMECAST_HTTP_PORT port here for the firewall
-        preFixup = ''
-          gappsWrapperArgs+=(
-            --prefix PATH : ${super.lib.makeBinPath [ super.ffmpeg ]}
-            --set GNOMECAST_HTTP_PORT 8010
-          )
-        '';
-      });
-    })
-  ];
-
   home.packages = [
     # Perso
     pkgs.calibre
@@ -98,6 +66,7 @@ in
     pkgs.keepass
     pkgs.keepass-otpkeyprov
     pkgs.yubikey-manager
+    pkgs.texlive.combined.scheme-full
   ] ++ [
     # Dev
     pkgs.gnumake
@@ -215,7 +184,7 @@ in
                     display: none;
                 }
             '';
-              extensions = with nur.repos.rycee.firefox-addons; [
+              extensions = with pkgs.nur.repos.rycee.firefox-addons; [
                 browserpass
                 plasma-integration
                 tree-style-tab

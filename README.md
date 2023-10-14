@@ -16,7 +16,4 @@ Moreover, this is a work in progress and tailored for my usages.
 
 - [ ] SSH Configuration
 - [ ] Disable Klipper
-
-## Thunderbird
-
-buildFirefoxXpiAddon
+- [ ] Modify `extensions.json` from Firefox / Thunderbird to auto activate extensions on startup

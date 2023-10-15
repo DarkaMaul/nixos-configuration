@@ -1,30 +1,21 @@
-{ config, pkgs, lib, inputs, ... }:
+{ config, pkgs, lib, inputs, outputs, nur, ... }:
 
-let    
-    dracula-konsole = pkgs.stdenv.mkDerivation {
-      name = "dracula-konsole-theme";
-      src = pkgs.fetchFromGitHub {
-        owner = "dracula";
-        repo = "konsole";
-        rev = "030486c7";
-        sha256 = "sha256-siMSZ6ylw/C4aX9Iv7jNmuT1hgJPtuf6o25VwQWlbYg=";
-      };
-
-      phases = ["unpackPhase" "installPhase"];
-
-      installPhase = ''
-        mkdir -p $out/share/konsole
-        cp Dracula.colorscheme $out/share/konsole
-      '';
-    };
-    # dracula-zsh-theme = pkgs.callPackage (import ./packages/dracula-zsh-theme) { };
+let
+    custom-packages = import ./pkgs pkgs ;
     dracula-icon-theme = pkgs.callPackage (import ./packages/dracula-icons) { };
     thunderbird-addons = pkgs.callPackage ( import ./packages/thunderbird-addons) { };
 in
 {
 
   imports = [
+    inputs.nur.hmModules.nur
     ./modules/programs/kde.nix
+  ];
+
+  nixpkgs.overlays = [
+    nur.overlays
+    outputs.overlays.additions
+    outputs.overlays.modifications
   ];
 
   # Home Manager needs a bit of information about you and the
@@ -57,7 +48,7 @@ in
     pkgs.zbar # For reading QR codes
   ] ++ [
     # Dracula
-    dracula-konsole
+    custom-packages.dracula-konsole-theme
     dracula-icon-theme
   ] ++ [
     # Utilities
@@ -184,7 +175,7 @@ in
                     display: none;
                 }
             '';
-              extensions = with pkgs.nur.repos.rycee.firefox-addons; [
+              extensions = with config.nur.repos.rycee.firefox-addons; [
                 browserpass
                 plasma-integration
                 tree-style-tab

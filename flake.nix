@@ -36,9 +36,27 @@
   # 
   # The `@` syntax here is used to alias the attribute set of the
   # inputs's parameter, making it convenient to use inside the function.
-  outputs = { self, nixpkgs, home-manager, nur, ... }@inputs: rec {
+  outputs = { self, nixpkgs, home-manager, nur, ... }@inputs: let
+    inherit (self) outputs;
+
+    systems = [
+      "x86_64-linux"
+    ];
+
+    nurNoPkgs = import nur {
+      nurpkgs = nixpkgs;
+      pkgs = throw "nixpkgs eval";
+    };
+
+    forAllSystems = nixpkgs.lib.genAttrs systems;
+
+  in {
 
     overlays = import ./overlays {inherit inputs;};
+
+    packages = forAllSystems (system:
+        let pkgs = nixpkgs.legacyPackages.${system};
+        in import ./pkgs pkgs );
 
     nixosConfigurations = {
       # By default, NixOS will try to refer the nixosConfiguration with
@@ -95,9 +113,6 @@
         #
         # specialArgs = {...};  # pass custom arguments into all sub module.
         modules = [
-
-          nur.nixosModules.nur
-
           # Import the configuration.nix here, so that the
           # old configuration file can still take effect.
           # Note: configuration.nix itself is also a Nix Module,
@@ -111,16 +126,10 @@
               users.dm = import ./home.nix;
 
               extraSpecialArgs = {
-                inherit (inputs) nur;
+                inherit inputs outputs nurNoPkgs;
               };
             };
 
-            nixpkgs.overlays = [
-              # Add nur overlay for Firefox addons
-              nur.overlay
-              overlays.additions
-              overlays.modifications
-            ];
           }
         ];
         specialArgs = { inherit inputs; };

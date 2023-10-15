@@ -223,12 +223,15 @@ in
   programs.bat = {
     enable = true;
     themes = {
-      dracula = builtins.readFile (pkgs.fetchFromGitHub {
-        owner = "dracula";
-        repo = "sublime";
-        rev = "c5de15a0ad654a2c7d8f086ae67c2c77fda07c5f";
-        sha256 = "sha256-m/MHz4phd3WR56I5jfi4hMXnFf4L4iXVpMFwtd0L0XE=";
-      } + "/Dracula.tmTheme");
+      dracula = {
+        src = pkgs.fetchFromGitHub {
+          owner = "dracula";
+          repo = "sublime";
+          rev = "c5de15a0ad654a2c7d8f086ae67c2c77fda07c5f";
+          sha256 = "sha256-m/MHz4phd3WR56I5jfi4hMXnFf4L4iXVpMFwtd0L0XE=";
+        };
+        file = "Dracula.tmTheme";
+      };
     };
   };
 

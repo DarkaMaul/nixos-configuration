@@ -2,8 +2,6 @@
 
 let
     custom-packages = import ./pkgs pkgs ;
-    dracula-icon-theme = pkgs.callPackage (import ./packages/dracula-icons) { };
-    thunderbird-addons = pkgs.callPackage ( import ./packages/thunderbird-addons) { };
 in
 {
 
@@ -49,7 +47,7 @@ in
   ] ++ [
     # Dracula
     custom-packages.dracula-konsole-theme
-    dracula-icon-theme
+    custom-packages.dracula-icons
   ] ++ [
     # Utilities
     pkgs.unzip
@@ -283,7 +281,7 @@ in
   };
 
   home.file.".thunderbird/hm-thunderbird-dm/extensions" = let
-    extensions = with thunderbird-addons; [
+    extensions = with custom-packages.thunderbird-addons; [
       dracula-theme
       french-language-pack
       french-dictionnary

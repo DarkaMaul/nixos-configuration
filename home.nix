@@ -1,7 +1,7 @@
 { config, pkgs, lib, inputs, outputs, nur, ... }:
 
 let
-    custom-packages = import ./pkgs pkgs ;
+  custom-packages = import ./pkgs pkgs ;
 in
 {
 
@@ -10,11 +10,13 @@ in
     ./modules/programs/kde.nix
   ];
 
-  nixpkgs.overlays = [
-    nur.overlays
-    outputs.overlays.additions
-    outputs.overlays.modifications
-  ];
+  nixpkgs = {
+    overlays = [
+      # nur.overlays
+      outputs.overlays.modifications
+      outputs.overlays.additions
+    ];
+  };
 
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
@@ -46,11 +48,14 @@ in
     pkgs.zbar # For reading QR codes
   ] ++ [
     # Dracula
+    pkgs.dracula-theme
     custom-packages.dracula-konsole-theme
     custom-packages.dracula-icons
   ] ++ [
     # Utilities
     pkgs.unzip
+    pkgs.ripgrep
+    pkgs.qbittorrent
     pkgs.vlc
     pkgs.keepass
     pkgs.keepass-otpkeyprov
@@ -64,6 +69,7 @@ in
   ] ++ [
     # Games
     pkgs.mindustry
+    pkgs.forge-mtg
   ];
 
   programs.autorandr.enable = true;
@@ -209,6 +215,7 @@ in
       dracula-theme.theme-dracula
       bbenoist.nix
       github.copilot
+      bungcip.better-toml
     ];
   };
 
@@ -271,6 +278,14 @@ in
         "z"
       ];
       theme = "dracula";
+      # TODO(DM): Use overlay from overlays.modifications
+      # package = overlays.modifications.oh-my-zsh;
+      package = pkgs.oh-my-zsh.overrideAttrs ( old: {
+        postInstall = ''
+          chmod +x $out/share/oh-my-zsh/themes
+          ln -s ${custom-packages.dracula-zsh-theme}/dracula.zsh-theme $out/share/oh-my-zsh/themes/dracula.zsh-theme
+        '';
+      });
     };
   };
 

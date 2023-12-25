@@ -69,12 +69,38 @@
   # Fingerprinting
   services.fprintd.enable = false;
   
+  # Printing
+  services.printing.enable = true;
+
   # Allow fingerprints in PAM login
   # security.pam.services.login.fprintAuth = true;
 
-  # Enable the Plasma 5 Desktop Environment.
-  services.xserver.displayManager.sddm.enable = true;
-  services.xserver.displayManager.sddm.theme = "Dracula";
+  # Enable the fwupd daemon for firmware updates.
+  services.fwupd = {
+    enable = true;
+    enableTestRemote = true;
+    extraRemotes = ["lvfs-testing"];
+    
+    # Workaround for Framework laptop
+    # https://knowledgebase.frame.work/framework-laptop-bios-releases-S1dMQt6F#Linux_BIOS
+    uefiCapsuleSettings = {
+      DisableCapsuleUpdateOnDisk = true;
+    };
+  };
+
+  services.xserver.displayManager = {
+    sddm = {
+      enable = true;
+      theme = "Dracula";
+      settings = {
+        General = {
+          # https://askubuntu.com/q/1293912
+          InputMethod = "";
+        };
+      };
+    };
+  };
+  
   services.xserver.desktopManager.plasma5.enable = true;
   
   services.tlp = {
@@ -212,12 +238,6 @@
   # Packages
   ## Be bad but allow them
   nixpkgs.config.allowUnfree = true;
-
-  environment.systemPackages = with pkgs; [
-    dracula-theme
-    ripgrep
-    qbittorrent
-  ];
 
   # Security
   security.rtkit.enable = true;

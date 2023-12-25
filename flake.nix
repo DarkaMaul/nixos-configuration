@@ -50,7 +50,7 @@
 
     forAllSystems = nixpkgs.lib.genAttrs systems;
 
-  in {
+  in rec {
 
     overlays = import ./overlays {inherit inputs;};
 

@@ -41,7 +41,6 @@ in
     pkgs.discord
     pkgs.gnomecast
     pkgs.mcomix # Comics reader
-    pkgs.plasma-browser-integration
     pkgs.redshift
     pkgs.spotify
     pkgs.thunderbird
@@ -132,12 +131,6 @@ in
   programs.firefox = {
     enable = true;
     
-    package = pkgs.firefox.override {
-      cfg = {
-        enablePlasmaBrowserIntegration = true;
-      };
-    };
-    
     # Some info: https://gitlab.com/rycee/configurations/-/blob/master/user/firefox.nix#L47
     profiles = {
         dm = {
@@ -181,7 +174,6 @@ in
             '';
               extensions = with config.nur.repos.rycee.firefox-addons; [
                 browserpass
-                plasma-integration
                 tree-style-tab
                 ublock-origin
                 ( buildFirefoxXpiAddon {

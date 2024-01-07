@@ -232,9 +232,6 @@
     };
   };
 
-  # HACK: Temp workaround to prevent wg0 to automatically start
-  # systemd.services.wg-quick-wg0.wantedBy = lib.mkForce [];
-
   # Packages
   ## Be bad but allow them
   nixpkgs.config.allowUnfree = true;

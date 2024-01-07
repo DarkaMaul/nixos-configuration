@@ -214,17 +214,17 @@
     
     wg-quick.interfaces = {
       wg0 = {
-        address = ["10.200.200.6/32"];
-        dns = ["10.200.200.1"];
-        listenPort = 43461;
+        address = ["10.49.0.3/32"];
+        dns = ["172.29.147.190"];
+        # listenPort = 43461;
         privateKeyFile = "/root/wg-key"; # root only readable file
-        # autostart = false;  # This is added in later versions
+        autostart = false;  # This is added in later versions
         peers = [
           {
-            publicKey = "LgHhvu81WJhk0plzAtTTjEmpsPLuhj7JcuMSeRJ/DRU=";
+            publicKey = "zEOirLqlRhJy1YUNHbLs8987/UuMDijE0/bBZQMVEmg=";
             presharedKeyFile = "/root/wg-psk"; # root only readable file
             allowedIPs = ["0.0.0.0/0"];
-            endpoint = "51.68.44.212:43461";
+            endpoint = "207.154.250.54:51820";
             persistentKeepalive = 25;
           }
         ];
@@ -233,7 +233,7 @@
   };
 
   # HACK: Temp workaround to prevent wg0 to automatically start
-  systemd.services.wg-quick-wg0.wantedBy = lib.mkForce [];
+  # systemd.services.wg-quick-wg0.wantedBy = lib.mkForce [];
 
   # Packages
   ## Be bad but allow them

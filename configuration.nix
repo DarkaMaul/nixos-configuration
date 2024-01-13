@@ -117,6 +117,47 @@
 
   services.pcscd.enable = true;
 
+  services.restic.backups = {
+      backblaze = {
+        passwordFile = "/home/dm/secrets/restic-password";
+        paths = [
+          "/home/dm/"
+        ];
+        exclude = [
+          "/home/dm/.cache/"
+          "/home/dm/.local/"
+          "/home/dm/.mozilla/"
+
+          "*.pyc"
+
+          # Backups
+          "/home/dm/Vacances/Sabbatique/Backup"
+          "/home/dm/Phones/Mi4S/PhoneBackUp"
+
+          # Random large files
+          "/home/dm/Vacances/Sabbatique/Maps/"
+
+          # Secrets
+          "/home/dm/secrets/"
+        ];
+        repository = "s3:s3.us-east-005.backblazeb2.com/dm-backups";
+        extraBackupArgs = [
+          "--one-file-system"
+        ];
+        user = "dm";
+        initialize = true;
+        environmentFile = "/home/dm/secrets/restic-environment";
+        timerConfig.OnCalendar = "daily";
+        backupCleanupCommand = "${pkgs.curl}/bin/curl https://hc-ping.com/571e1b3a-10b2-4bcb-bdef-3c2683ab72b5";
+        pruneOpts = [
+            "--keep-daily 7"
+            "--keep-weekly 4"
+            "--keep-yearly 10"
+        ];
+      };
+    };
+
+
   # Hardware
   hardware = {
     bluetooth = {

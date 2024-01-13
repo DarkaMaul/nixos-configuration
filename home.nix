@@ -336,7 +336,6 @@ in
       enableSshSupport = true;
       # enableZshIntegration = true;
     };
-
   };
 
   xdg.configFile = {

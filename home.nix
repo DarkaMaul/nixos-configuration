@@ -1,4 +1,4 @@
-{ config, pkgs, lib, inputs, outputs, nur, ... }:
+{ config, pkgs, lib, inputs, outputs, agenix, nur, ... }:
 
 let
   custom-packages = import ./pkgs pkgs ;
@@ -8,6 +8,7 @@ in
   imports = [
     inputs.nur.hmModules.nur
     ./modules/programs/kde.nix
+    inputs.agenix.homeManagerModules.age
   ];
 
   nixpkgs = {
@@ -30,9 +31,14 @@ in
       thunderbird.enable = true;
       address = "darkamaul@hotmail.fr";
       flavor = "outlook.office365.com";
-      # TODO(dm) Change me after going back to pass
-      # passwordCommand = "TODO";
     };
+  };
+
+  age = {
+    identityPaths = [
+      "${config.home.homeDirectory}/.ssh/id_ed25519"
+    ];
+    secrets = {};
   };
 
   home.packages = [
@@ -52,12 +58,11 @@ in
     custom-packages.dracula-icons
   ] ++ [
     # Utilities
-    pkgs.unzip
+    pkgs.p7zip
     pkgs.ripgrep
     pkgs.qbittorrent
     pkgs.vlc
-    pkgs.keepass
-    pkgs.keepass-otpkeyprov
+    pkgs.keepassxc
     pkgs.yubikey-manager
     pkgs.texlive.combined.scheme-full
   ] ++ [
@@ -211,14 +216,6 @@ in
     ];
   };
 
-  programs.password-store = {
-    enable = true;
-    package = pkgs.pass.withExtensions (exts: [exts.pass-otp]);
-    settings = {
-      PASSWORD_STORE_DIR = "${config.xdg.dataHome}/password-store";
-    };
-  };
-
   programs.bat = {
     enable = true;
     themes = {
@@ -232,11 +229,6 @@ in
         file = "Dracula.tmTheme";
       };
     };
-  };
-
-  programs.browserpass = {
-      enable = true;
-      browsers = ["firefox" ];  # TODO add chromium
   };
 
   programs.ssh = {
@@ -339,8 +331,6 @@ in
   };
 
   xdg.configFile = {
-    # Add environment variable for password manager
-    "environment.d/20-password-manager.conf".text = "PASSWORD_STORE_DIR= ${config.programs.password-store.settings.PASSWORD_STORE_DIR}";
     # Add configuration for shortcuts
     "khotkeysrc".source = ./config/khotkeysrc;
     "kglobalshortcutsrc".source = ./config/kglobalshortcutsrc;

@@ -22,6 +22,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Agenix
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.darwin.follows = "";
+    };
+
     # NUR
     nur.url = github:nix-community/NUR;
   };
@@ -36,7 +43,7 @@
   # 
   # The `@` syntax here is used to alias the attribute set of the
   # inputs's parameter, making it convenient to use inside the function.
-  outputs = { self, nixpkgs, home-manager, nur, ... }@inputs: let
+  outputs = { self, nixpkgs, home-manager, agenix, nur, ... }@inputs: let
     inherit (self) outputs;
 
     systems = [
@@ -117,7 +124,7 @@
           # old configuration file can still take effect.
           # Note: configuration.nix itself is also a Nix Module,
           ./configuration.nix
-
+          agenix.nixosModules.default
           home-manager.nixosModules.home-manager
           {
             home-manager = {
@@ -126,7 +133,7 @@
               users.dm = import ./home.nix;
 
               extraSpecialArgs = {
-                inherit inputs outputs nurNoPkgs;
+                inherit inputs outputs agenix nurNoPkgs;
               };
             };
 

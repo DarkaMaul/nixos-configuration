@@ -55,71 +55,95 @@
   # Select internationalisation properties.
   i18n.defaultLocale = "fr_FR.UTF-8";
   console = {
-  #   font = "Lat2-Terminus16";
+    # font = "Lat2-Terminus16";
     keyMap = pkgs.lib.mkOverride 0 "fr";
     useXkbConfig = true; # use xkbOptions in tty.
   };
 
   # Thermal data
-  services.thermald.enable = false; # TODO(dm) error here
+  services = {
 
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-  
-  # Fingerprinting
-  services.fprintd.enable = false;
-  
-  # Printing
-  services.printing.enable = true;
+    thermald.enable = false; # TODO(dm) error here
 
-  # Allow fingerprints in PAM login
-  # security.pam.services.login.fprintAuth = true;
+    # Enable the X11 windowing system.
+    xserver.enable = true;
 
-  # Enable the fwupd daemon for firmware updates.
-  services.fwupd = {
-    enable = true;
-    enableTestRemote = true;
-    extraRemotes = ["lvfs-testing"];
-    
-    # Workaround for Framework laptop
-    # https://knowledgebase.frame.work/framework-laptop-bios-releases-S1dMQt6F#Linux_BIOS
-    uefiCapsuleSettings = {
-      DisableCapsuleUpdateOnDisk = true;
-    };
-  };
+    # Fingerprinting
+    fprintd.enable = false;
 
-  services.xserver.displayManager = {
-    sddm = {
+    # Printing
+    printing.enable = true;
+
+    # Firmware managment
+    fwupd = {
       enable = true;
-      theme = "Dracula";
-      settings = {
-        General = {
-          # https://askubuntu.com/q/1293912
-          InputMethod = "";
+      enableTestRemote = true;
+      extraRemotes = ["lvfs-testing"];
+      
+      # Workaround for Framework laptop
+      # https://knowledgebase.frame.work/framework-laptop-bios-releases-S1dMQt6F#Linux_BIOS
+      uefiCapsuleSettings = {
+        DisableCapsuleUpdateOnDisk = true;
+      };
+    };
+
+    xserver.displayManager = {
+      sddm = {
+        enable = true;
+        theme = "Dracula";
+        settings = {
+          General = {
+            # https://askubuntu.com/q/1293912
+            InputMethod = "";
+          };
         };
       };
     };
-  };
-  
-  services.xserver.desktopManager.plasma5.enable = true;
-  
-  services.tlp = {
-    enable = false; # TODO(dm)
-    settings = {
-      TLP_DEFAULT_MODE = "BAT";
-      PLATFORM_PROFILE_ON_AC = "performance";
-      PLATFORM_PROFILE_ON_BAT = "low-power";
-      CPU_SCALING_GOVERNOR_ON_AC = "performance";
-      CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
-      PCIE_ASPM_ON_BAT = "powersupersave";
+
+    pcscd.enable = true;
+
+    tlp = {
+      enable = false; # TODO(dm)
+      settings = {
+        TLP_DEFAULT_MODE = "BAT";
+        PLATFORM_PROFILE_ON_AC = "performance";
+        PLATFORM_PROFILE_ON_BAT = "low-power";
+        CPU_SCALING_GOVERNOR_ON_AC = "performance";
+        CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+        PCIE_ASPM_ON_BAT = "powersupersave";
+      };
     };
+
+    xserver.desktopManager.plasma5.enable = true;
+
+    # Disable OpenSSH Daemon
+    openssh.enable = false;
   };
 
-  services.pcscd.enable = true;
+  # Allow fingerprints in PAM login
+  # security.pam.services.login.fprintAuth = true;
+  age = {
+    secrets = {
+      restic = {
+        file = ./secrets/restic-password.age;
+        owner = "dm";
+      };
+      
+      restic-env = {
+        file = ./secrets/restic-env.age;
+        owner = "dm";
+      };
+
+    };
+    identityPaths = [
+      "/home/dm/.ssh/id_ed25519"
+    ];
+  };
 
   services.restic.backups = {
       backblaze = {
-        passwordFile = "/home/dm/secrets/restic-password";
+        passwordFile = config.age.secrets.restic.path;
+        environmentFile = config.age.secrets.restic-env.path;
         paths = [
           "/home/dm/"
         ];
@@ -136,9 +160,6 @@
 
           # Random large files
           "/home/dm/Vacances/Sabbatique/Maps/"
-
-          # Secrets
-          "/home/dm/secrets/"
         ];
         repository = "s3:s3.us-east-005.backblazeb2.com/dm-backups";
         extraBackupArgs = [
@@ -146,7 +167,6 @@
         ];
         user = "dm";
         initialize = true;
-        environmentFile = "/home/dm/secrets/restic-environment";
         timerConfig.OnCalendar = "daily";
         backupCleanupCommand = "${pkgs.curl}/bin/curl https://hc-ping.com/571e1b3a-10b2-4bcb-bdef-3c2683ab72b5";
         pruneOpts = [
@@ -218,10 +238,6 @@
     zsh.enable = true;
 
   };
-
-  # List services that you want to enable:
-  # Enable the OpenSSH daemon.
-  services.openssh.enable = false;
 
   # Open ports in the firewall.
   networking = {

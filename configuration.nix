@@ -122,6 +122,8 @@
 
   # Allow fingerprints in PAM login
   # security.pam.services.login.fprintAuth = true;
+
+  # Secrets
   age = {
     secrets = {
       restic = {
@@ -160,6 +162,9 @@
 
           # Random large files
           "/home/dm/Vacances/Sabbatique/Maps/"
+
+          # A directory to work
+          "/home/dm/Scratch"
         ];
         repository = "s3:s3.us-east-005.backblazeb2.com/dm-backups";
         extraBackupArgs = [

@@ -246,6 +246,14 @@ in
         identityFile = "~/.ssh/id_ed25519_ovh";
         port = 443;
       };
+
+      dm-aglo = {
+        hostname = "207.154.250.54";
+        user = "algo";
+        port = 4160;
+        identitiesOnly = true;
+        identityFile = "${config.home.homeDirectory}/Projects/algo/configs/algo.pem";
+      };
     };
   };
 

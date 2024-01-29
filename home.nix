@@ -309,6 +309,14 @@ in
   home.file.".ipython/profile_default/ipython_config.py".text = ''
     c.InteractiveShellApp.extensions = ["autoreload"]
     c.InteractiveShellApp.exec_lines = ["%autoreload 2"]
+    
+    # Use Dracula as a IPython color scheme
+    c.TerminalInteractiveShell.highlighting_style = "dracula"
+    c.TerminalInteractiveShell.true_color = True
+
+    # Fix the highlights of Tracebacks
+    from IPython.core.ultratb import VerboseTB
+    VerboseTB._tb_highlight_style = "pastie"
   '';
 
   # programs.texlive = {

@@ -126,7 +126,7 @@ in
     lfs.enable = true;
     signing = {
       key = "4354FD36D28894CA";
-      signByDefault = true;
+      signByDefault = false;
     };
     extraConfig = {
       merge.conflictstyle = "diff3";
@@ -178,15 +178,15 @@ in
                 }
             '';
               extensions = with config.nur.repos.rycee.firefox-addons; [
-                browserpass
                 tree-style-tab
                 ublock-origin
+                keepassxc-browser
                 ( buildFirefoxXpiAddon {
                   pname = "dracula-dark-theme";
                   addonId = "{b743f56d-1cc1-4048-8ba6-f9c2ab7aa54d}";
-                  version = "1.9.2";
-                  url = "https://addons.mozilla.org/firefox/downloads/file/3834855/dracula_dark_theme-1.9.2-an+fx.xpi";
-                  sha256 = "eFxd7GfCeZHcGeMqHtYhmaz37g3D9lRhsikm4dZa69o=";
+                  version = "1.10.0";
+                  url = "https://addons.mozilla.org/firefox/downloads/file/4224518/dracula_dark_colorscheme-1.10.0.xpi";
+                  sha256 = "zwgwdvyNf7XERmRkjEwCkJaJbvOBBO4NP76abYKJQ+E=";
                   meta = with lib; {
                     description = "Dracula Dark Theme";
                     license = pkgs.lib.licenses.cc-by-nc-sa-30;

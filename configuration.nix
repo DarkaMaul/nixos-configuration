@@ -215,6 +215,9 @@
   # Enable sound.
   sound.enable = true;
 
+  # Add docker
+  virtualisation.docker.enable = true;
+
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
@@ -226,7 +229,7 @@
     hashedPassword = "$6$ygdBQ/hGUwbEaIrX$Mgdprm9l8dID/uUZk6B4cJbvtbFmIVteDjtytKEsvvH8j/yBbC4cOdn3lT6Bav5IZlWx8/EZ2kQRqVRkskH2S/";
     home = "/home/dm";
     description = "dm";
-    extraGroups = ["wheel" "networkmanager"];
+    extraGroups = ["wheel" "networkmanager" "docker"];
     shell = pkgs.zsh;
   };
 

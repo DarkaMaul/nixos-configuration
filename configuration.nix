@@ -77,7 +77,6 @@
     # Firmware managment
     fwupd = {
       enable = true;
-      enableTestRemote = true;
       extraRemotes = ["lvfs-testing"];
       
       # Workaround for Framework laptop

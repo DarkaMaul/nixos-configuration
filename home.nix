@@ -209,10 +209,11 @@ in
     mutableExtensionsDir = false;
     extensions = with pkgs.vscode-extensions; [
       ms-python.python
+      ms-azuretools.vscode-docker
       dracula-theme.theme-dracula
       bbenoist.nix
       github.copilot
-      bungcip.better-toml
+      tamasfe.even-better-toml
     ];
   };
 
@@ -253,6 +254,14 @@ in
         port = 4160;
         identitiesOnly = true;
         identityFile = "${config.home.homeDirectory}/Projects/algo/configs/algo.pem";
+      };
+
+      oracle = {
+        hostname = "89.168.44.80";
+        user = "ubuntu";
+        port = 22;
+        identitiesOnly = true;
+        identityFile = "${config.home.homeDirectory}/.ssh/oracle_key";
       };
     };
   };

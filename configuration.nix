@@ -189,7 +189,6 @@
       disabledPlugins = ["sap"];
       settings = {
         General = {
-          Enable = "Source,Sink,Media,Socket";
           Experimental = "true";
         };
       };
@@ -215,7 +214,11 @@
   sound.enable = true;
 
   # Add docker
-  virtualisation.docker.enable = true;
+  virtualisation.docker = {
+    enable = true;
+    enableOnBoot = false;
+  };
+  }
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
@@ -310,8 +313,12 @@
   };
   
   # We like to live dangerously so be it
-  system.autoUpgrade.enable = true;
-  system.autoUpgrade.allowReboot = true;
+  system.autoUpgrade = {
+    enable = true;
+    allowReboot = false;
+    flake = "./flake.nix";
+    randomizedDelaySec = "45min";
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

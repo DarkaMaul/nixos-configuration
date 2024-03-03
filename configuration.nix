@@ -202,7 +202,7 @@
   };
 
   # Configure keymap in X11
-  services.xserver.layout = "fr";
+  services.xserver.xkb.layout = "fr";
   # services.xserver.xkbOptions = {
   #   "eurosign:e";
   #   "caps:escape" # map caps to escape.

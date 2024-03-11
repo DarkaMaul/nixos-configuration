@@ -60,9 +60,9 @@
     useXkbConfig = true; # use xkbOptions in tty.
   };
 
-  # Thermal data
   services = {
 
+    # Thermal data
     thermald.enable = false; # TODO(dm) error here
 
     # Enable the X11 windowing system.
@@ -73,6 +73,13 @@
 
     # Printing
     printing.enable = true;
+
+    # From https://nixos.wiki/wiki/Printing
+    avahi = {
+      enable = true;
+      nssmdns4 = true;
+      openFirewall = true;
+    };
 
     # Firmware managment
     fwupd = {

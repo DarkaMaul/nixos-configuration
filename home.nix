@@ -210,6 +210,7 @@ in
     extensions = with pkgs.vscode-extensions; [
       ms-python.python
       ms-azuretools.vscode-docker
+      ms-vscode-remote.remote-ssh
       dracula-theme.theme-dracula
       bbenoist.nix
       github.copilot

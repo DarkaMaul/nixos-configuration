@@ -72,7 +72,10 @@
     fprintd.enable = false;
 
     # Printing
-    printing.enable = true;
+    printing = {
+      enable = true;
+      drivers = [ pkgs.hplipWithPlugin ];
+    };
 
     # From https://nixos.wiki/wiki/Printing
     avahi = {
@@ -232,13 +235,23 @@
   # Users management
   users.mutableUsers = false;
 
-  users.users.dm = {
-    isNormalUser = true;
-    hashedPassword = "$6$ygdBQ/hGUwbEaIrX$Mgdprm9l8dID/uUZk6B4cJbvtbFmIVteDjtytKEsvvH8j/yBbC4cOdn3lT6Bav5IZlWx8/EZ2kQRqVRkskH2S/";
-    home = "/home/dm";
-    description = "dm";
-    extraGroups = ["wheel" "networkmanager" "docker"];
-    shell = pkgs.zsh;
+  users.users = {
+    dm = {
+        isNormalUser = true;
+        hashedPassword = "$6$ygdBQ/hGUwbEaIrX$Mgdprm9l8dID/uUZk6B4cJbvtbFmIVteDjtytKEsvvH8j/yBbC4cOdn3lT6Bav5IZlWx8/EZ2kQRqVRkskH2S/";
+        home = "/home/dm";
+        description = "dm";
+        extraGroups = ["wheel" "networkmanager" "docker"];
+        shell = pkgs.zsh;
+    };
+
+    iris = {
+      isNormalUser = true;
+      hashedPassword = "$6$0xebMERPCtNXz1EF$cK2mEocw1tyfFtG3WyD.OO9JJexJM5WBANpJBs3c0ti7z2PYDw5sfP6F1tJV2ejQloutWTCsXohlcB4ECokH20";
+      home = "/home/iris";
+      description = "Iris";
+      shell = pkgs.zsh;
+    };
   };
 
   # Programs

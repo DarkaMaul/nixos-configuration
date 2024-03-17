@@ -130,7 +130,8 @@
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
-              users.dm = import ./home.nix;
+              users.dm = import ./users/dm.nix;
+              users.iris = import ./users/iris.nix;
 
               extraSpecialArgs = {
                 inherit inputs outputs agenix nurNoPkgs;

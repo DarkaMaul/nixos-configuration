@@ -72,8 +72,8 @@ in
     pkgs.jetbrains.pycharm-professional
   ] ++ [
     # Games
-    pkgs.mindustry
-    pkgs.forge-mtg
+    # pkgs.mindustry
+    # pkgs.forge-mtg
   ];
 
   programs.autorandr.enable = true;

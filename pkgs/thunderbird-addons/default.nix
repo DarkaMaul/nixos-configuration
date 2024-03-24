@@ -3,8 +3,14 @@
 let
 
   buildThunderbirdXpiAddon = lib.makeOverridable ({ stdenv ? args.stdenv
-    , fetchurl ? args.fetchurl, pname, version, url, sha256, meta, ...
-    }:
+                                                  , fetchurl ? args.fetchurl
+                                                  , pname
+                                                  , version
+                                                  , url
+                                                  , sha256
+                                                  , meta
+                                                  , ...
+                                                  }:
     stdenv.mkDerivation rec {
       name = "${pname}-${version}";
 
@@ -21,9 +27,10 @@ let
       '';
     });
 
-  packages = {};
+  packages = { };
 
-in packages // {
+in
+packages // {
   inherit buildThunderbirdXpiAddon;
 
   dracula-theme = buildThunderbirdXpiAddon {
@@ -36,7 +43,7 @@ in packages // {
       description = "Dracula Theme for Thunderbird";
       license = lib.licenses.cc-by-30;
     };
-    
+
   };
 
   french-language-pack = buildThunderbirdXpiAddon {

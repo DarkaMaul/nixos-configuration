@@ -22,7 +22,7 @@
     # Disable IPv6
     "ipv6.disable=1"
   ];
-  
+
   # Enable flakes and nix-command
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
@@ -36,7 +36,7 @@
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  
+
   # Luks
   boot.initrd.luks.devices = {
     root = {
@@ -87,8 +87,8 @@
     # Firmware managment
     fwupd = {
       enable = true;
-      extraRemotes = ["lvfs-testing"];
-      
+      extraRemotes = [ "lvfs-testing" ];
+
       # Workaround for Framework laptop
       # https://knowledgebase.frame.work/framework-laptop-bios-releases-S1dMQt6F#Linux_BIOS
       uefiCapsuleSettings = {
@@ -139,7 +139,7 @@
         file = ./secrets/restic-password.age;
         owner = "dm";
       };
-      
+
       restic-env = {
         file = ./secrets/restic-env.age;
         owner = "dm";
@@ -152,51 +152,51 @@
   };
 
   services.restic.backups = {
-      backblaze = {
-        passwordFile = config.age.secrets.restic.path;
-        environmentFile = config.age.secrets.restic-env.path;
-        paths = [
-          "/home/dm/"
-        ];
-        exclude = [
-          "/home/dm/.cache/"
-          "/home/dm/.local/"
-          "/home/dm/.mozilla/"
+    backblaze = {
+      passwordFile = config.age.secrets.restic.path;
+      environmentFile = config.age.secrets.restic-env.path;
+      paths = [
+        "/home/dm/"
+      ];
+      exclude = [
+        "/home/dm/.cache/"
+        "/home/dm/.local/"
+        "/home/dm/.mozilla/"
 
-          "*.pyc"
+        "*.pyc"
 
-          # Backups
-          "/home/dm/Vacances/Sabbatique/Backup"
-          "/home/dm/Phones/Mi4S/PhoneBackUp"
+        # Backups
+        "/home/dm/Vacances/Sabbatique/Backup"
+        "/home/dm/Phones/Mi4S/PhoneBackUp"
 
-          # Random large files
-          "/home/dm/Vacances/Sabbatique/Maps/"
+        # Random large files
+        "/home/dm/Vacances/Sabbatique/Maps/"
 
-          # A directory to work
-          "/home/dm/Scratch"
-        ];
-        repository = "s3:s3.us-east-005.backblazeb2.com/dm-backups";
-        extraBackupArgs = [
-          "--one-file-system"
-        ];
-        user = "dm";
-        initialize = true;
-        timerConfig.OnCalendar = "daily";
-        backupCleanupCommand = "${pkgs.curl}/bin/curl https://hc-ping.com/571e1b3a-10b2-4bcb-bdef-3c2683ab72b5";
-        pruneOpts = [
-            "--keep-daily 7"
-            "--keep-weekly 4"
-            "--keep-yearly 10"
-        ];
-      };
+        # A directory to work
+        "/home/dm/Scratch"
+      ];
+      repository = "s3:s3.us-east-005.backblazeb2.com/dm-backups";
+      extraBackupArgs = [
+        "--one-file-system"
+      ];
+      user = "dm";
+      initialize = true;
+      timerConfig.OnCalendar = "daily";
+      backupCleanupCommand = "${pkgs.curl}/bin/curl https://hc-ping.com/571e1b3a-10b2-4bcb-bdef-3c2683ab72b5";
+      pruneOpts = [
+        "--keep-daily 7"
+        "--keep-weekly 4"
+        "--keep-yearly 10"
+      ];
     };
+  };
 
 
   # Hardware
   hardware = {
     bluetooth = {
       enable = true;
-      disabledPlugins = ["sap"];
+      disabledPlugins = [ "sap" ];
       settings = {
         General = {
           Experimental = "true";
@@ -237,12 +237,12 @@
 
   users.users = {
     dm = {
-        isNormalUser = true;
-        hashedPassword = "$6$ygdBQ/hGUwbEaIrX$Mgdprm9l8dID/uUZk6B4cJbvtbFmIVteDjtytKEsvvH8j/yBbC4cOdn3lT6Bav5IZlWx8/EZ2kQRqVRkskH2S/";
-        home = "/home/dm";
-        description = "dm";
-        extraGroups = ["wheel" "networkmanager" "docker"];
-        shell = pkgs.zsh;
+      isNormalUser = true;
+      hashedPassword = "$6$ygdBQ/hGUwbEaIrX$Mgdprm9l8dID/uUZk6B4cJbvtbFmIVteDjtytKEsvvH8j/yBbC4cOdn3lT6Bav5IZlWx8/EZ2kQRqVRkskH2S/";
+      home = "/home/dm";
+      description = "dm";
+      extraGroups = [ "wheel" "networkmanager" "docker" ];
+      shell = pkgs.zsh;
     };
 
     iris = {
@@ -278,12 +278,16 @@
 
     # Disable IPv6
     enableIPv6 = false;
-    
+
     # Use Cloudfare DNS
     nameservers = [
       "1.1.1.1"
       "1.0.0.1"
     ];
+
+    extraHosts = ''
+      127.0.0.1 tabliersvolants.org
+    '';
 
     # Try to solve DHCP issues
     useDHCP = false;
@@ -297,19 +301,19 @@
       allowedUDPPortRanges = [{ from = 32768; to = 61000; }];
       allowedTCPPorts = [ 8010 ];
     };
-    
+
     wg-quick.interfaces = {
       wg0 = {
-        address = ["10.49.0.3/32"];
-        dns = ["172.29.147.190"];
+        address = [ "10.49.0.3/32" ];
+        dns = [ "172.29.147.190" ];
         # listenPort = 43461;
         privateKeyFile = "/root/wg-key"; # root only readable file
-        autostart = false;  # This is added in later versions
+        autostart = false; # This is added in later versions
         peers = [
           {
             publicKey = "zEOirLqlRhJy1YUNHbLs8987/UuMDijE0/bBZQMVEmg=";
             presharedKeyFile = "/root/wg-psk"; # root only readable file
-            allowedIPs = ["0.0.0.0/0"];
+            allowedIPs = [ "0.0.0.0/0" ];
             endpoint = "207.154.250.54:51820";
             persistentKeepalive = 25;
           }
@@ -330,7 +334,7 @@
     automatic = true;
     dates = "weekly";
   };
-  
+
   # We like to live dangerously so be it
   system.autoUpgrade = {
     enable = true;

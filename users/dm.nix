@@ -1,7 +1,7 @@
 { config, pkgs, lib, inputs, outputs, agenix, nur, ... }:
 
 let
-  custom-packages = import ../pkgs pkgs ;
+  custom-packages = import ../pkgs pkgs;
 in
 {
 
@@ -38,7 +38,7 @@ in
     identityPaths = [
       "${config.home.homeDirectory}/.ssh/id_ed25519"
     ];
-    secrets = {};
+    secrets = { };
   };
 
   home.packages = [
@@ -107,16 +107,16 @@ in
   };
 
   programs.chromium = {
-      enable = true;
-      extensions = [
-          "cjpalhdlnbpafiamejdnhcphjbkeiagm"  # Ublock Origin
-      ];
-      # extraOpts = {
-      #   "PasswordManagerEnabled" = false;
-      #   "SyncDisabled" = true;
-      #   "SpellcheckEnabled" = true;
-      #   "SpellcheckLanguage" = ["fr" "en-US"];  
-      # };
+    enable = true;
+    extensions = [
+      "cjpalhdlnbpafiamejdnhcphjbkeiagm" # Ublock Origin
+    ];
+    # extraOpts = {
+    #   "PasswordManagerEnabled" = false;
+    #   "SyncDisabled" = true;
+    #   "SpellcheckEnabled" = true;
+    #   "SpellcheckLanguage" = ["fr" "en-US"];  
+    # };
   };
 
   programs.git = {
@@ -135,76 +135,76 @@ in
 
   programs.firefox = {
     enable = true;
-    
+
     # Some info: https://gitlab.com/rycee/configurations/-/blob/master/user/firefox.nix#L47
     profiles = {
-        dm = {
-            isDefault = true;
-            settings = {
-                "beacon.enabled" = false;
-                "browser.download.useDownloadDir" = false;
-                "browser.newtabpage.activity-stream.feeds.telemetry" = false; # Telemetry
-                "browser.newtabpage.activity-stream.improvesearch.topSiteSearchShortcuts" = false;
-                "browser.newtabpage.activity-stream.showSponsored" = false;
-                "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
-                "browser.ping-centre.telemetry" = false; # Telemetry
-                "browser.shell.checkDefaultBrowser" = false;
-                "browser.tabs.crashReporting.sendReport" = false; # Telemetry
-                "browser.urlbar.groupLabels.enabled" = false;
-                "browser.startup.page" = 3;  # restore previous session
-                "browser.toolbars.bookmarks.visibility" = "never"; # Never show the bookmarks toolbar
-                "devtools.onboarding.telemetry.logged" = false; # Telemetry
-                "extensions.pocket.enabled" = false;
-                "identity.fxaccounts.enabled" = false;
-                "network.prefetch-next" = false;
-                # FIX: No-Proxy - so FF manage to reconnect on reboot
-                "network.proxy.type" = 0;
-                "signon.autofillForms" = false;
-                "signon.rememberSignons" = false; # Disable Firefox Password Manager
-                "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
-            };
-            # From https://github.com/piroor/treestyletab/wiki/Code-snippets-for-custom-style-rules#hide-horizontal-tabs-at-the-top-of-the-window-1349-1672-2147
-            userChrome = ''
-                #main-window[tabsintitlebar="true"]:not([extradragspace="true"]) #TabsToolbar > .toolbar-items {
-                opacity: 0;
-                pointer-events: none;
-                }
-                #main-window:not([tabsintitlebar="true"]) #TabsToolbar {
-                    visibility: collapse !important;
-                }
-
-                #sidebar-header {
-                    display: none;
-                }
-            '';
-              extensions = with config.nur.repos.rycee.firefox-addons; [
-                tree-style-tab
-                ublock-origin
-                keepassxc-browser
-                ( buildFirefoxXpiAddon {
-                  pname = "dracula-dark-theme";
-                  addonId = "{b743f56d-1cc1-4048-8ba6-f9c2ab7aa54d}";
-                  version = "1.10.0";
-                  url = "https://addons.mozilla.org/firefox/downloads/file/4224518/dracula_dark_colorscheme-1.10.0.xpi";
-                  sha256 = "zwgwdvyNf7XERmRkjEwCkJaJbvOBBO4NP76abYKJQ+E=";
-                  meta = with lib; {
-                    description = "Dracula Dark Theme";
-                    license = pkgs.lib.licenses.cc-by-nc-sa-30;
-                    platforms = pkgs.lib.platforms.all;
-                  };
-                })
-              ];
+      dm = {
+        isDefault = true;
+        settings = {
+          "beacon.enabled" = false;
+          "browser.download.useDownloadDir" = false;
+          "browser.newtabpage.activity-stream.feeds.telemetry" = false; # Telemetry
+          "browser.newtabpage.activity-stream.improvesearch.topSiteSearchShortcuts" = false;
+          "browser.newtabpage.activity-stream.showSponsored" = false;
+          "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
+          "browser.ping-centre.telemetry" = false; # Telemetry
+          "browser.shell.checkDefaultBrowser" = false;
+          "browser.tabs.crashReporting.sendReport" = false; # Telemetry
+          "browser.urlbar.groupLabels.enabled" = false;
+          "browser.startup.page" = 3; # restore previous session
+          "browser.toolbars.bookmarks.visibility" = "never"; # Never show the bookmarks toolbar
+          "devtools.onboarding.telemetry.logged" = false; # Telemetry
+          "extensions.pocket.enabled" = false;
+          "identity.fxaccounts.enabled" = false;
+          "network.prefetch-next" = false;
+          # FIX: No-Proxy - so FF manage to reconnect on reboot
+          "network.proxy.type" = 0;
+          "signon.autofillForms" = false;
+          "signon.rememberSignons" = false; # Disable Firefox Password Manager
+          "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
         };
+        # From https://github.com/piroor/treestyletab/wiki/Code-snippets-for-custom-style-rules#hide-horizontal-tabs-at-the-top-of-the-window-1349-1672-2147
+        userChrome = ''
+          #main-window[tabsintitlebar="true"]:not([extradragspace="true"]) #TabsToolbar > .toolbar-items {
+          opacity: 0;
+          pointer-events: none;
+          }
+          #main-window:not([tabsintitlebar="true"]) #TabsToolbar {
+              visibility: collapse !important;
+          }
+
+          #sidebar-header {
+              display: none;
+          }
+        '';
+        extensions = with config.nur.repos.rycee.firefox-addons; [
+          tree-style-tab
+          ublock-origin
+          keepassxc-browser
+          (buildFirefoxXpiAddon {
+            pname = "dracula-dark-theme";
+            addonId = "{b743f56d-1cc1-4048-8ba6-f9c2ab7aa54d}";
+            version = "1.10.0";
+            url = "https://addons.mozilla.org/firefox/downloads/file/4224518/dracula_dark_colorscheme-1.10.0.xpi";
+            sha256 = "zwgwdvyNf7XERmRkjEwCkJaJbvOBBO4NP76abYKJQ+E=";
+            meta = with lib; {
+              description = "Dracula Dark Theme";
+              license = pkgs.lib.licenses.cc-by-nc-sa-30;
+              platforms = pkgs.lib.platforms.all;
+            };
+          })
+        ];
+      };
     };
   };
-  
+
   programs.vscode = {
     enable = true;
     userSettings = {
-        "update.mode" = "none";
-        "[nix]"."editor.tabSize" = 2;
-        "window.zoomLevel" = 1;
-        "editor.inlineSuggest.enabled" = true;
+      "update.mode" = "none";
+      "[nix]"."editor.tabSize" = 2;
+      "window.zoomLevel" = 1;
+      "editor.inlineSuggest.enabled" = true;
     };
     mutableExtensionsDir = false;
     extensions = with pkgs.vscode-extensions; [
@@ -282,7 +282,7 @@ in
       theme = "dracula";
       # TODO(DM): Use overlay from overlays.modifications
       # package = overlays.modifications.oh-my-zsh;
-      package = pkgs.oh-my-zsh.overrideAttrs ( old: {
+      package = pkgs.oh-my-zsh.overrideAttrs (old: {
         postInstall = ''
           chmod +x $out/share/oh-my-zsh/themes
           ln -s ${custom-packages.dracula-zsh-theme}/dracula.zsh-theme $out/share/oh-my-zsh/themes/dracula.zsh-theme
@@ -300,20 +300,22 @@ in
     };
   };
 
-  home.file.".thunderbird/hm-thunderbird-dm/extensions" = let
-    extensions = with custom-packages.thunderbird-addons; [
-      dracula-theme
-      french-language-pack
-      french-dictionnary
-    ]; in
-      pkgs.lib.mkIf (extensions != [ ]) {
-        source = pkgs.buildEnv {
-          name = "hm-thunderbird-extensions";
-          paths = extensions;
-        };
-        recursive = true;
-        force = true;
-  };
+  home.file.".thunderbird/hm-thunderbird-dm/extensions" =
+    let
+      extensions = with custom-packages.thunderbird-addons; [
+        dracula-theme
+        french-language-pack
+        french-dictionnary
+      ];
+    in
+    pkgs.lib.mkIf (extensions != [ ]) {
+      source = pkgs.buildEnv {
+        name = "hm-thunderbird-extensions";
+        paths = extensions;
+      };
+      recursive = true;
+      force = true;
+    };
 
   # Autoreload for IPython
   home.file.".ipython/profile_default/ipython_config.py".text = ''
@@ -343,11 +345,11 @@ in
 
   services = {
     redshift = {
-        enable = true;
-        # Paris
-        latitude = "48.85";
-        longitude = "2.35";
-      };
+      enable = true;
+      # Paris
+      latitude = "48.85";
+      longitude = "2.35";
+    };
 
     gpg-agent = {
       enable = true;

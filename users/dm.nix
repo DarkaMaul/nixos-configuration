@@ -72,6 +72,7 @@ in
     pkgs.jetbrains.pycharm-professional
   ] ++ [
     # Games
+    pkgs.lutris
     # pkgs.mindustry
     # pkgs.forge-mtg
   ];

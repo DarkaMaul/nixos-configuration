@@ -64,7 +64,7 @@ in
     pkgs.vlc
     pkgs.keepassxc
     pkgs.yubikey-manager
-    pkgs.texlive.combined.scheme-full
+    # pkgs.texlive.combined.scheme-full
   ] ++ [
     # Dev
     pkgs.gnumake

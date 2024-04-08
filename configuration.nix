@@ -65,9 +65,6 @@
     # Thermal data
     thermald.enable = false; # TODO(dm) error here
 
-    # Enable the X11 windowing system.
-    xserver.enable = true;
-
     # Fingerprinting
     fprintd.enable = false;
 
@@ -96,6 +93,8 @@
       };
     };
 
+    # Enable the X11 windowing system.
+    xserver.enable = true;
     xserver.displayManager = {
       sddm = {
         enable = true;
@@ -106,6 +105,7 @@
             InputMethod = "";
           };
         };
+        wayland.enable = true;
       };
     };
 
@@ -123,7 +123,7 @@
       };
     };
 
-    xserver.desktopManager.plasma5.enable = true;
+    desktopManager.plasma6.enable = true;
 
     # Disable OpenSSH Daemon
     openssh.enable = false;
@@ -263,7 +263,6 @@
 
     htop.enable = true;
     gnupg.agent.enable = true;
-    kdeconnect.enable = true;
     zsh.enable = true;
 
   };

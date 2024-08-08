@@ -93,21 +93,20 @@
       };
     };
 
+    displayManager.sddm = {
+      enable = true;
+      theme = "Dracula";
+      settings = {
+        General = {
+          # https://askubuntu.com/q/1293912
+          InputMethod = "";
+        };
+      };
+      wayland.enable = true;
+    };
+
     # Enable the X11 windowing system.
     xserver.enable = true;
-    xserver.displayManager = {
-      sddm = {
-        enable = true;
-        theme = "Dracula";
-        settings = {
-          General = {
-            # https://askubuntu.com/q/1293912
-            InputMethod = "";
-          };
-        };
-        wayland.enable = true;
-      };
-    };
 
     pcscd.enable = true;
 
@@ -219,9 +218,6 @@
 
   # Enable CUPS to print documents.
   # services.printing.enable = true;
-
-  # Enable sound.
-  sound.enable = true;
 
   # Add docker
   virtualisation.docker = {

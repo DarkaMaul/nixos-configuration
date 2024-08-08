@@ -46,7 +46,8 @@ in
     pkgs.calibre
     pkgs.discord
     pkgs.gnomecast
-    pkgs.mcomix # Comics reader
+    # Renable me when https://github.com/NixOS/nixpkgs/issues/331934 is fixed 
+    # pkgs.mcomix # Comics reader
     pkgs.redshift
     pkgs.spotify
     pkgs.thunderbird
@@ -72,7 +73,6 @@ in
     pkgs.jetbrains.pycharm-professional
   ] ++ [
     # Games
-    pkgs.lutris
     # pkgs.mindustry
     # pkgs.forge-mtg
   ];
@@ -214,7 +214,6 @@ in
       ms-vscode-remote.remote-ssh
       dracula-theme.theme-dracula
       bbenoist.nix
-      github.copilot
       tamasfe.even-better-toml
     ];
   };

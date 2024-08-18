@@ -280,10 +280,6 @@
       "1.0.0.1"
     ];
 
-    extraHosts = ''
-      127.0.0.1 tabliersvolants.org
-    '';
-
     # Try to solve DHCP issues
     useDHCP = false;
 

@@ -46,7 +46,7 @@ in
     pkgs.calibre
     pkgs.discord
     pkgs.gnomecast
-    # Renable me when https://github.com/NixOS/nixpkgs/issues/331934 is fixed 
+    # Renable me when https://github.com/NixOS/nixpkgs/issues/331934 is fixed
     # pkgs.mcomix # Comics reader
     pkgs.redshift
     pkgs.spotify

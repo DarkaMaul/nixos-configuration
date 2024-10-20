@@ -45,7 +45,6 @@ in
     # Perso
     pkgs.calibre
     pkgs.discord
-    pkgs.gnomecast
     # Renable me when https://github.com/NixOS/nixpkgs/issues/331934 is fixed
     # pkgs.mcomix # Comics reader
     pkgs.redshift
@@ -64,6 +63,7 @@ in
     pkgs.qbittorrent
     pkgs.vlc
     pkgs.keepassxc
+    pkgs._1password-gui
     pkgs.yubikey-manager
     # pkgs.texlive.combined.scheme-full
   ] ++ [
@@ -156,6 +156,8 @@ in
           "browser.toolbars.bookmarks.visibility" = "never"; # Never show the bookmarks toolbar
           "devtools.onboarding.telemetry.logged" = false; # Telemetry
           "extensions.pocket.enabled" = false;
+          "extensions.formautofill.addresses.enabled" = false;
+          "extensions.formautofill.creditCards.enabled" = false;
           "identity.fxaccounts.enabled" = false;
           "network.prefetch-next" = false;
           # FIX: No-Proxy - so FF manage to reconnect on reboot
@@ -181,7 +183,6 @@ in
         extensions = with config.nur.repos.rycee.firefox-addons; [
           tree-style-tab
           ublock-origin
-          keepassxc-browser
           (buildFirefoxXpiAddon {
             pname = "dracula-dark-theme";
             addonId = "{b743f56d-1cc1-4048-8ba6-f9c2ab7aa54d}";
@@ -191,6 +192,24 @@ in
             meta = with lib; {
               description = "Dracula Dark Theme";
               license = pkgs.lib.licenses.cc-by-nc-sa-30;
+              platforms = pkgs.lib.platforms.all;
+            };
+          })
+
+          (buildFirefoxXpiAddon rec {
+            pname = "1password_x_password_manager";
+            addonId = "{d634138d-c276-4fc8-924b-40a0ea21d284}";
+            version = "8.10.46.26";
+            url = "https://addons.mozilla.org/firefox/downloads/file/4355876/${pname}-${version}.xpi";
+            sha256 = "sha256-3JeATByldAL6Wt9uoMx3letgdGip1rX/fm7J/f0cG0c=";
+            meta = with lib; {
+              description = "The best way to experience 1Password in your browser.";
+              license = {
+                shortName = "1pwd";
+                fullName = "Service Agreement for 1Password users and customers";
+                url = "https://1password.com/legal/terms-of-service/";
+                free = false;
+              };
               platforms = pkgs.lib.platforms.all;
             };
           })
@@ -242,21 +261,6 @@ in
     '';
 
     matchBlocks = {
-      darkamaul = {
-        hostname = "darkamaul.fr";
-        user = "alexis";
-        identityFile = "~/.ssh/id_ed25519_ovh";
-        port = 443;
-      };
-
-      dm-aglo = {
-        hostname = "207.154.250.54";
-        user = "algo";
-        port = 4160;
-        identitiesOnly = true;
-        identityFile = "${config.home.homeDirectory}/Projects/algo/configs/algo.pem";
-      };
-
       oracle = {
         hostname = "89.168.44.80";
         user = "ubuntu";

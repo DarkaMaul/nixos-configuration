@@ -126,6 +126,9 @@
 
     # Disable OpenSSH Daemon
     openssh.enable = false;
+    pipewire = {
+      enable = true;
+    };
   };
 
   # Allow fingerprints in PAM login
@@ -204,7 +207,7 @@
     };
 
     pulseaudio = {
-      enable = true;
+      enable = false;
       package = pkgs.pulseaudioFull;
     };
   };

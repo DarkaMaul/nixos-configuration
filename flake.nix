@@ -42,6 +42,9 @@
 
     # NUR
     nur.url = github:nix-community/NUR;
+
+    # Hardware
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
   };
 
   # `outputs` are all the build result of the flake.
@@ -54,7 +57,7 @@
   # 
   # The `@` syntax here is used to alias the attribute set of the
   # inputs's parameter, making it convenient to use inside the function.
-  outputs = { self, nixpkgs, home-manager, agenix, nur, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, agenix, nur, nixos-hardware, ... }@inputs:
     let
       inherit (self) outputs;
 
@@ -157,7 +160,7 @@
             {
               nix.settings.trusted-users = [ "root" "dm" ];
             }
-
+            nixos-hardware.nixosModules.framework-11th-gen-intel
           ];
           specialArgs = { inherit inputs; };
         };

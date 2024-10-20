@@ -3,6 +3,12 @@
 ## Author
 dm
 
+## Update
+
+```shell
+sudo nix flake update
+```
+
 ## Objective
 
 This repository contains the configuration I use for my [Framework Laptop](https://frame.work).

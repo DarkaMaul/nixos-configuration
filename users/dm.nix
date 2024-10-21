@@ -31,6 +31,12 @@ in
       thunderbird.enable = true;
       address = "darkamaul@hotmail.fr";
       flavor = "outlook.office365.com";
+
+      # Force OAuth-2 flow
+      thunderbird.settings = id: {
+        "mail.smtpserver.smtp_${id}.authMethod" = 10;
+        "mail.server.server_${id}.authMethod" = 10;
+      };
     };
   };
 

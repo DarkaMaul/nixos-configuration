@@ -264,6 +264,11 @@
     gnupg.agent.enable = true;
     zsh.enable = true;
 
+    _1password.enable = true;
+    _1password-gui = {
+      enable = true;
+      polkitPolicyOwners = [ "dm" ];
+    };
   };
 
   # Open ports in the firewall.

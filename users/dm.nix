@@ -52,7 +52,7 @@ in
     pkgs.calibre
     pkgs.discord
     # Renable me when https://github.com/NixOS/nixpkgs/issues/331934 is fixed
-    # pkgs.mcomix # Comics reader
+    pkgs.mcomix # Comics reader
     pkgs.redshift
     pkgs.spotify
     pkgs.thunderbird
@@ -69,14 +69,12 @@ in
     pkgs.qbittorrent
     pkgs.vlc
     pkgs.keepassxc
-    pkgs._1password-gui
-    pkgs.yubikey-manager
     # pkgs.texlive.combined.scheme-full
   ] ++ [
     # Dev
     pkgs.gnumake
     pkgs.python3
-    pkgs.jetbrains.pycharm-professional
+    # pkgs.jetbrains.pycharm-professional
   ] ++ [
     # Games
     # pkgs.mindustry

@@ -261,6 +261,7 @@ in
     controlMaster = "auto";
     compression = true;
     extraConfig = ''
+      IdentityAgent "~/.1password/agent.sock"
       AddKeysToAgent yes
     '';
 

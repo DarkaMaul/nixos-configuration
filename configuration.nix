@@ -10,39 +10,40 @@
       ./hardware-configuration.nix # Hardware scan
     ];
 
-  boot.kernelParams = [
-    "mem_sleep_default=deep"
+  boot = {
+    kernelParams = [
+      "mem_sleep_default=deep"
 
-    # https://community.frame.work/t/linux-battery-life-tuning/6665/156
-    "nvme.noacpi=1"
+      # https://community.frame.work/t/linux-battery-life-tuning/6665/156
+      "nvme.noacpi=1"
 
-    # FIX: systemd-udevd[768]: could not read from '/sys/module/pcc_cpufreq/initstate': No such device
-    "intel_pstate=active"
+      # FIX: systemd-udevd[768]: could not read from '/sys/module/pcc_cpufreq/initstate': No such device
+      "intel_pstate=active"
 
-    # Disable IPv6
-    "ipv6.disable=1"
-  ];
+      # Disable IPv6
+      "ipv6.disable=1"
+    ];
 
-  # Enable flakes and nix-command
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+    loader = {
+      # Use the systemd-boot EFI boot loader.
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+    };
+
+    # Luks
+    initrd.luks.devices = {
+      root = {
+        device = "/dev/disk/by-uuid/370d4c74-2bbe-4cdb-87e1-f58cafe87ed3";
+        preLVM = true;
+      };
+    };
+  };
 
   # Power management
   powerManagement = {
     enable = true;
     powertop.enable = true;
     cpuFreqGovernor = pkgs.lib.mkOverride 0 "ondemand";
-  };
-
-  # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
-  # Luks
-  boot.initrd.luks.devices = {
-    root = {
-      device = "/dev/disk/by-uuid/370d4c74-2bbe-4cdb-87e1-f58cafe87ed3";
-      preLVM = true;
-    };
   };
 
   # Set your time zone.
@@ -79,6 +80,12 @@
       enable = true;
       nssmdns4 = true;
       openFirewall = true;
+    };
+
+    # Tailscale
+    tailscale = {
+      enable = true;
+      useRoutingFeatures = "client";
     };
 
     # Firmware managment
@@ -146,7 +153,6 @@
         file = ./secrets/restic-env.age;
         owner = "dm";
       };
-
     };
     identityPaths = [
       "/home/dm/.ssh/id_ed25519"
@@ -192,7 +198,6 @@
       ];
     };
   };
-
 
   # Hardware
   hardware = {
@@ -290,34 +295,13 @@
 
     # Try to solve DHCP issues
     useDHCP = false;
-
     firewall = {
       enable = true;
-      # 43461: for WG
       # 5353: for Chromecast discovery
-      allowedUDPPorts = [ 43461 5353 ];
+      allowedUDPPorts = [ 5353 ];
       # Frome Chromecast streaming
       allowedUDPPortRanges = [{ from = 32768; to = 61000; }];
       allowedTCPPorts = [ 8010 ];
-    };
-
-    wg-quick.interfaces = {
-      wg0 = {
-        address = [ "10.49.0.3/32" ];
-        dns = [ "172.29.147.190" ];
-        # listenPort = 43461;
-        privateKeyFile = "/root/wg-key"; # root only readable file
-        autostart = false; # This is added in later versions
-        peers = [
-          {
-            publicKey = "zEOirLqlRhJy1YUNHbLs8987/UuMDijE0/bBZQMVEmg=";
-            presharedKeyFile = "/root/wg-psk"; # root only readable file
-            allowedIPs = [ "0.0.0.0/0" ];
-            endpoint = "207.154.250.54:51820";
-            persistentKeepalive = 25;
-          }
-        ];
-      };
     };
   };
 
@@ -329,9 +313,13 @@
   security.rtkit.enable = true;
 
   # Garbage collection
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
+  nix = {
+    gc = {
+      automatic = true;
+      dates = "weekly";
+    };
+    # Enable flakes and nix-command
+    settings.experimental-features = [ "nix-command" "flakes" ];
   };
 
   # We like to live dangerously so be it

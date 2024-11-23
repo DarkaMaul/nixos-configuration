@@ -5,4 +5,5 @@ pkgs: {
   dracula-konsole-theme = pkgs.callPackage ./dracula-konsole-theme { };
   dracula-icons = pkgs.callPackage ./dracula-icons { };
   thunderbird-addons = pkgs.callPackage ./thunderbird-addons { };
+  tail-tray = pkgs.callPackage ./tail-tray { };
 }

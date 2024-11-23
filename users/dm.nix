@@ -70,6 +70,7 @@ in
     pkgs.vlc
     pkgs.keepassxc
     # pkgs.texlive.combined.scheme-full
+    custom-packages.tail-tray
   ] ++ [
     # Dev
     pkgs.gnumake

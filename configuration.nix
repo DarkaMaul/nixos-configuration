@@ -86,6 +86,7 @@
     tailscale = {
       enable = true;
       useRoutingFeatures = "client";
+      extraSetFlags = [ "--operator=dm" ];
     };
 
     # Firmware managment

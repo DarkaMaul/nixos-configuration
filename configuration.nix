@@ -118,6 +118,11 @@
 
     pcscd.enable = true;
 
+    pulseaudio = {
+      enable = false;
+      package = pkgs.pulseaudioFull;
+    };
+
     tlp = {
       enable = false; # TODO(dm)
       settings = {
@@ -137,10 +142,10 @@
     pipewire = {
       enable = true;
     };
-  };
 
-  # Allow fingerprints in PAM login
-  # security.pam.services.login.fprintAuth = true;
+    # Configure keymap in X11
+    xserver.xkb.layout = "fr";
+  };
 
   # Secrets
   age = {
@@ -211,31 +216,13 @@
         };
       };
     };
-
-    pulseaudio = {
-      enable = false;
-      package = pkgs.pulseaudioFull;
-    };
   };
-
-  # Configure keymap in X11
-  services.xserver.xkb.layout = "fr";
-  # services.xserver.xkbOptions = {
-  #   "eurosign:e";
-  #   "caps:escape" # map caps to escape.
-  # };
-
-  # Enable CUPS to print documents.
-  # services.printing.enable = true;
 
   # Add docker
   virtualisation.docker = {
     enable = true;
     enableOnBoot = false;
   };
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
 
   # Users management
   users.mutableUsers = false;

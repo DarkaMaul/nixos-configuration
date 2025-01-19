@@ -51,7 +51,6 @@ in
     # Perso
     pkgs.calibre
     pkgs.discord
-    # Renable me when https://github.com/NixOS/nixpkgs/issues/331934 is fixed
     pkgs.mcomix # Comics reader
     pkgs.redshift
     pkgs.spotify
@@ -136,6 +135,14 @@ in
     };
     extraConfig = {
       merge.conflictstyle = "diff3";
+    };
+  };
+
+  programs.ghostty = {
+    enable = true;
+    enableZshIntegration = true;
+    settings = {
+      theme = "Dracula";
     };
   };
 

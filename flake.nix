@@ -41,7 +41,11 @@
     };
 
     # NUR
-    nur.url = github:nix-community/NUR;
+    nur = {
+      # There is an update that kills how we use NUR after
+      # Let wait until it get settled
+      url = "github:nix-community/NUR/42a0caa";
+    };
 
     # Hardware
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";

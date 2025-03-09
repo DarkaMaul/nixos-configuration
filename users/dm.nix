@@ -11,13 +11,13 @@ in
     inputs.agenix.homeManagerModules.age
   ];
 
-  nixpkgs = {
-    overlays = [
-      # nur.overlays
-      outputs.overlays.modifications
-      outputs.overlays.additions
-    ];
-  };
+  # nixpkgs = {
+  #   overlays = [
+  #     # nur.overlays
+  #     outputs.overlays.modifications
+  #     outputs.overlays.additions
+  #   ];
+  # };
 
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
@@ -192,7 +192,7 @@ in
               display: none;
           }
         '';
-        extensions = with config.nur.repos.rycee.firefox-addons; [
+        extensions.packages = with config.nur.repos.rycee.firefox-addons; [
           tree-style-tab
           ublock-origin
           (buildFirefoxXpiAddon {
@@ -232,7 +232,7 @@ in
 
   programs.vscode = {
     enable = true;
-    userSettings = {
+    profiles.default.userSettings = {
       "update.mode" = "none";
       "[nix]"."editor.tabSize" = 2;
       "window.zoomLevel" = 1;

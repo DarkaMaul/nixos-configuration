@@ -19,7 +19,7 @@ stdenv.mkDerivation rec {
 
   # ubuntu-mono-dark,Mint-X,elementary
   propagatedBuildInputs = with pkgs; [
-    breeze-icons
+    kdePackages.breeze-icons
     hicolor-icon-theme
     gnome-icon-theme
     papirus-icon-theme

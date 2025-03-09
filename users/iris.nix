@@ -11,14 +11,6 @@ in
     inputs.agenix.homeManagerModules.age
   ];
 
-  nixpkgs = {
-    overlays = [
-      # nur.overlays
-      outputs.overlays.modifications
-      outputs.overlays.additions
-    ];
-  };
-
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home.homeDirectory = "/home/iris";
@@ -81,7 +73,7 @@ in
               display: none;
           }
         '';
-        extensions = with config.nur.repos.rycee.firefox-addons; [
+        extensions.packages = with config.nur.repos.rycee.firefox-addons; [
           tree-style-tab
           ublock-origin
           (buildFirefoxXpiAddon {

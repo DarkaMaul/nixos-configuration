@@ -60,7 +60,7 @@ in
     # Dracula
     pkgs.dracula-theme
     custom-packages.dracula-konsole-theme
-    custom-packages.dracula-icons
+    (pkgs.tela-circle-icon-theme.override { colorVariants = ["dracula"]; })
   ] ++ [
     # Utilities
     pkgs.p7zip
@@ -232,21 +232,23 @@ in
 
   programs.vscode = {
     enable = true;
-    profiles.default.userSettings = {
-      "update.mode" = "none";
-      "[nix]"."editor.tabSize" = 2;
-      "window.zoomLevel" = 1;
-      "editor.inlineSuggest.enabled" = true;
+    profiles.default = {
+      userSettings = {
+        "update.mode" = "none";
+        "[nix]"."editor.tabSize" = 2;
+        "window.zoomLevel" = 1;
+        "editor.inlineSuggest.enabled" = true;
+        };
+      extensions =  with pkgs.vscode-extensions; [
+        ms-python.python
+        ms-azuretools.vscode-docker
+        ms-vscode-remote.remote-ssh
+        dracula-theme.theme-dracula
+        bbenoist.nix
+        tamasfe.even-better-toml
+      ];
     };
     mutableExtensionsDir = false;
-    extensions = with pkgs.vscode-extensions; [
-      ms-python.python
-      ms-azuretools.vscode-docker
-      ms-vscode-remote.remote-ssh
-      dracula-theme.theme-dracula
-      bbenoist.nix
-      tamasfe.even-better-toml
-    ];
   };
 
   programs.bat = {

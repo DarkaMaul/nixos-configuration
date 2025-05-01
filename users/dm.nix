@@ -193,7 +193,6 @@ in
           }
         '';
         extensions.packages = with config.nur.repos.rycee.firefox-addons; [
-          tree-style-tab
           ublock-origin
           (buildFirefoxXpiAddon {
             pname = "dracula-dark-theme";

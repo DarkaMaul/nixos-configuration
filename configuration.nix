@@ -64,7 +64,7 @@
   services = {
 
     # Thermal data
-    thermald.enable = false; # TODO(dm) error here
+    thermald.enable = true;
 
     # Fingerprinting
     fprintd.enable = false;
@@ -124,7 +124,7 @@
     };
 
     tlp = {
-      enable = false; # TODO(dm)
+      enable = true;
       settings = {
         TLP_DEFAULT_MODE = "BAT";
         PLATFORM_PROFILE_ON_AC = "performance";
@@ -134,6 +134,8 @@
         PCIE_ASPM_ON_BAT = "powersupersave";
       };
     };
+
+    power-profiles-daemon.enable = false;
 
     desktopManager.plasma6.enable = true;
 
@@ -308,14 +310,6 @@
     };
     # Enable flakes and nix-command
     settings.experimental-features = [ "nix-command" "flakes" ];
-  };
-
-  # We like to live dangerously so be it
-  system.autoUpgrade = {
-    enable = true;
-    allowReboot = false;
-    flake = "./flake.nix";
-    randomizedDelaySec = "45min";
   };
 
   # # Add Cachix

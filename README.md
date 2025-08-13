@@ -1,5 +1,8 @@
 # Nixos configuration
 
+Warning: This configuration was archived in August 2025 because I changed my laptop.
+
+
 ## Author
 dm
 

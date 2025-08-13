@@ -17,7 +17,7 @@ in
   home.username = "iris";
 
   home.packages = [
-    pkgs.redshift
+    # pkgs.redshift
     pkgs.spotify
     pkgs.p7zip
     pkgs.vlc

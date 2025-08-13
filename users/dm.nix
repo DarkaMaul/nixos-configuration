@@ -52,7 +52,7 @@ in
     pkgs.calibre
     pkgs.discord
     pkgs.mcomix # Comics reader
-    pkgs.redshift
+    # pkgs.redshift
     pkgs.spotify
     pkgs.thunderbird
     pkgs.zbar # For reading QR codes
@@ -245,6 +245,7 @@ in
         dracula-theme.theme-dracula
         bbenoist.nix
         tamasfe.even-better-toml
+        github.copilot
       ];
     };
     mutableExtensionsDir = false;
@@ -362,12 +363,12 @@ in
   # };
 
   services = {
-    redshift = {
-      enable = true;
-      # Paris
-      latitude = "48.85";
-      longitude = "2.35";
-    };
+    # redshift = {
+    #   enable = true;
+    #   # Paris
+    #   latitude = "48.85";
+    #   longitude = "2.35";
+    # };
 
     gpg-agent = {
       enable = true;
